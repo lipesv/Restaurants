@@ -1,0 +1,12 @@
+@Restaurants.API_HostAddress = https://localhost:7009
+
+@count=3
+POST {{Restaurants.API_HostAddress}}/api/weatherforecast/generate?count={{count}}
+Content-Type: application/json
+
+{
+  "Min": -25,
+  "Max": 30
+}
+
+###

@@ -10,3 +10,29 @@ Content-Type: application/json
 }
 
 ###
+
+GET {{Restaurants.API_HostAddress}}/api/restaurants
+
+###
+
+@id=5
+GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+POST {{Restaurants.API_HostAddress}}/api/restaurants
+Content-Type: application/json
+
+{
+    "Name": "Indienne",
+    "Description": "We offer a tasting menu for Vegetarian, Vegan, and Pescatarian diners as well as those who eat all proteins and ingredients (which we refer to as 'Non-Vegetarian'). Each menu changes seasonally.",
+    "Category": "Indian",
+    "HasDelivery": true,
+    "ContactEmail": "contact@indienne.example",
+    "ContactNumber": "(312) 291-9427",
+    "City": "Chicago",
+    "Street": "217 W Huron St",
+    "PostalCode": "60654"
+}
+
+###

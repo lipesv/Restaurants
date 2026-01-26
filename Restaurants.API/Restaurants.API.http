@@ -1,21 +1,12 @@
 @Restaurants.API_HostAddress = https://localhost:7009
 
-@count=3
-POST {{Restaurants.API_HostAddress}}/api/weatherforecast/generate?count={{count}}
-Content-Type: application/json
-
-{
-  "Min": -25,
-  "Max": 30
-}
-
 ###
 
 GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
 
-@id=5
+@id=7
 GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 ###
@@ -24,15 +15,20 @@ POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
-    "Name": "Indienne",
-    "Description": "We offer a tasting menu for Vegetarian, Vegan, and Pescatarian diners as well as those who eat all proteins and ingredients (which we refer to as 'Non-Vegetarian'). Each menu changes seasonally.",
-    "Category": "Indian",
-    "HasDelivery": true,
-    "ContactEmail": "contact@indienne.example",
-    "ContactNumber": "(312) 291-9427",
-    "City": "Chicago",
-    "Street": "217 W Huron St",
-    "PostalCode": "60654"
+  "Name": "Adega",
+  "Description": "Adega is Portuguese for “wine cellar,” and following suit, this dining room stocks over 200 vintages that are rarely seen on these Western shores. It's the ethos here, where Chef David Costa and Pastry Chef Jessica Carreira create an appetizing menu with a perfect blend of pristine local produce and top-notch, imported ingredients. Seafood is a focus, and diners shouldn't miss the likes of a dressed-up take on Portugal's culinary backbone—bacalhau. In this rendition, it is moist and flavorful, and arranged over crisp potatoes. Succulent carabineros are marinated in lemongrass and seaweed, then topped with caviar. Chef Carreira’s desserts, like flan, layered with caramelized sugar and gilded with a quenelle of vanilla ice cream, are equally notable.",
+  "Category": "Portuguese",
+  "HasDelivery": false,
+  "ContactEmail": "contact@adega.pt",
+  "ContactNumber": "(408) 926-9075",
+  "City": "San Jose",
+  "Street": "1614 Alum Rock Ave.",
+  "PostalCode": "95116"
 }
+
+###
+
+@id=7
+DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 ###

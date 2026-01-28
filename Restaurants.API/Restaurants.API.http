@@ -6,7 +6,7 @@ GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
 
-@id=7
+@id=1
 GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 ###
@@ -30,5 +30,18 @@ Content-Type: application/json
 
 @id=7
 DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+
+###
+
+@id=1
+PATCH {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+Content-Type: application/json
+
+{
+  "Id": {{id}},
+  "Name": "Pasta Palace",
+  "Description": "Handmade pasta and sauces inspired by traditional Italian recipes.",
+  "HasDelivery": true
+}
 
 ###

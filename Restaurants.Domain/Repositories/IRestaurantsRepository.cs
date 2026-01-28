@@ -11,4 +11,6 @@ public interface IRestaurantsRepository
     Task<int> CreateAsync(Restaurant restaurant);
 
     Task DeleteAsync(Restaurant restaurant);
+
+    Task SaveChanges();
 }

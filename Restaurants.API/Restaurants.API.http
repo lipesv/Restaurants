@@ -6,8 +6,7 @@ GET {{Restaurants.API_HostAddress}}/api/restaurants
 
 ###
 
-@id=1
-GET {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+GET {{Restaurants.API_HostAddress}}/api/restaurants/9
 
 ###
 
@@ -15,15 +14,15 @@ POST {{Restaurants.API_HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
-  "Name": "Adega",
-  "Description": "Adega is Portuguese for “wine cellar,” and following suit, this dining room stocks over 200 vintages that are rarely seen on these Western shores. It's the ethos here, where Chef David Costa and Pastry Chef Jessica Carreira create an appetizing menu with a perfect blend of pristine local produce and top-notch, imported ingredients. Seafood is a focus, and diners shouldn't miss the likes of a dressed-up take on Portugal's culinary backbone—bacalhau. In this rendition, it is moist and flavorful, and arranged over crisp potatoes. Succulent carabineros are marinated in lemongrass and seaweed, then topped with caviar. Chef Carreira’s desserts, like flan, layered with caramelized sugar and gilded with a quenelle of vanilla ice cream, are equally notable.",
-  "Category": "Portuguese",
-  "HasDelivery": false,
-  "ContactEmail": "contact@adega.pt",
-  "ContactNumber": "(408) 926-9075",
-  "City": "San Jose",
-  "Street": "1614 Alum Rock Ave.",
-  "PostalCode": "95116"
+  "Name": "Sunset Grill & Smokehouse",
+  "Description": "A cozy American BBQ restaurant specializing in slow-smoked brisket, ribs, and classic Southern comfort food.",
+  "Category": "American",
+  "HasDelivery": true,
+  "ContactEmail": "info@sunsetgrillsmokehouse.com",
+  "ContactNumber": "(512) 555-2847",
+  "City": "Austin",
+  "Street": "7423 Maple Ridge Drive",
+  "PostalCode": "78727"
 }
 
 ###
@@ -33,15 +32,15 @@ DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 
 ###
 
-@id=1
+@id=8
 PATCH {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
 Content-Type: application/json
 
 {
   "Id": {{id}},
-  "Name": "Pasta Palace",
-  "Description": "Handmade pasta and sauces inspired by traditional Italian recipes.",
-  "HasDelivery": true
+  "Name": "Sunset Grill",
+  "Description": "A cozy American BBQ restaurant.",
+  "HasDelivery": false
 }
 
 ###

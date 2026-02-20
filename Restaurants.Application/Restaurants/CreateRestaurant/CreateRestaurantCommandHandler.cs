@@ -10,7 +10,7 @@ public class CreateRestaurantCommandHandler(ILogger<CreateRestaurantCommandHandl
 {
     public async Task<int> Handle(CreateRestaurantCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Creating a new restaurant");
+        logger.LogInformation("Creating a new restaurant {@Restaurant}", command);
 
         var restaurant = mapper.Map<Restaurant>(command);
 

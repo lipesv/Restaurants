@@ -2,4 +2,4 @@
 
 namespace Restaurants.Application.Restaurants.DeleteRestaurant;
 
-public record DeleteRestaurantCommand(int Id) : IRequest<bool>;
+public record DeleteRestaurantCommand(int Id) : IRequest;

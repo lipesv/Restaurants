@@ -2,7 +2,7 @@
 
 namespace Restaurants.Application.Restaurants.UpdateRestaurant;
 
-public record UpdateRestaurantCommand(int Id, bool HasDelivery) : IRequest<bool>
+public record UpdateRestaurantCommand(int Id, bool HasDelivery) : IRequest
 {
     public UpdateRestaurantCommand() : this(0, false) { }
 

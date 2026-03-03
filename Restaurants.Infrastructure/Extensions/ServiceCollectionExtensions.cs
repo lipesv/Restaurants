@@ -11,11 +11,17 @@ namespace Restaurants.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static void AddInfrastructure(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
         // Register infrastructure services here
-        services.AddDbContext<RestaurantsDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("RestaurantsDb"))
-                                                                      .EnableSensitiveDataLogging());
+        services.AddDbContext<RestaurantsDbContext>(options =>
+            options
+                .UseSqlServer(configuration.GetConnectionString("RestaurantsDb"))
+                .EnableSensitiveDataLogging()
+        );
 
         services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
         services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();

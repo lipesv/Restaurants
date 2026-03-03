@@ -1,0 +1,31 @@
+services:
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: restaurants-db
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong@Pass123!
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - restaurants-network
+
+  restaurantsapi:
+    image: restaurants-api
+    build:
+      context: .
+      dockerfile: Restaurants.API/Dockerfile
+    container_name: restaurants-api
+    depends_on:
+      - database
+    networks:
+      - restaurants-network
+
+networks:
+  restaurants-network:
+    driver: bridge
+
+volumes:
+  mssql_data:

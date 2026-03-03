@@ -1,0 +1,7 @@
+services:
+  restaurantsapi:
+    ports:
+      - "5000:8080" # Mapeia a porta para acesso externo
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=database;Database=RestaurantsDb;User Id=sa;Password=YourStrong@Pass123!;TrustServerCertificate=True;

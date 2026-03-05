@@ -12,7 +12,7 @@
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
             "dependsOn": [
-                "Start Dev Environment"
+                "start-environment"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -111,13 +111,23 @@
             }
         },
         {
-            "label": "Start Dev Environment",
+            "label": "start-environment",
             "type": "shell",
             "command": "./scripts/environment/dev.sh",
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
             }
+        },
+        {
+            "label": "Docker: Clean Environment",
+            "type": "shell",
+            "command": "docker compose down -v && rm -f ./scripts/environment/.migrations_applied",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
         }
     ]
 }

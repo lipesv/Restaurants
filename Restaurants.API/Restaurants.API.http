@@ -1,16 +1,17 @@
-@Restaurants.API_HostAddress = https://localhost:7009
+@HostAddress = https://localhost:7009
+@Token = CfDJ8FvuZwcgo9BBlYwrSDGnb88HrTPICcQpReE81PVvQCUfkWDeNurtV4KcLVENeWFhRz2bLCQvuK6OfL-7e0z-qGsft3rQCkPh6YHD5TZNHBtH7R_MCCuG7XpzPLyxz9ABNo8DNlezVL4j4b8gWQA0Y67ANLgKis5dq9tcZgzvfTYCTogwHtfD9JAyXC-CrsNeavx-LWaoxEZQWp_8ebEH79tIWL5kfkq_9kz50Ck2JCuKxGM3kt0-ySYHTiocWrLaj6xb2lnvLy14R_J_49AERSQez0R3xIi04xLEJfOKwDgp_IK9jT530bh6VN5RnHPviRPg3DEjKPJckAIijC3BZ6rg4t8afa_VXKLJI9ZdE1hMyUkx-V2XIEnAX_29_dVTzSt3VgjD2Tz_H1hsaXlfyg5XW_TI_OP_NjyvJsnD40F9LZZQeA9RxyjBNIJ9e7MxM51V21XIx9dVXqNZARm-T2uwGaNB2rO8cEkCPlkIHbT1wBd1iyvAJb5yPtekB7-SSowpqkszIfz8NfEWt52ltYHEe_Cm0x8d6UUfHs9TEcAE8ne5vVGBvixfepQ_LOhGkNXbLbnEEuSbpXZxdulSkkpQxKicclNzgRo2zrFFfI9xNit8-Rjo6kwXTYZ2YJq4z5JLBk-RcOFBnu3MQl9LXS4-zh-09uBMB_Jn7HeaU3ffuuvHVhejh_oTV_YaIlUB9w
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants
+GET {{HostAddress}}/api/restaurants
 
 ###
 
-GET {{Restaurants.API_HostAddress}}/api/restaurants/9
-
+GET {{HostAddress}}/api/restaurants/1
+Authorization: Bearer {{Token}}
 ###
 
-POST {{Restaurants.API_HostAddress}}/api/restaurants
+POST {{HostAddress}}/api/restaurants
 Content-Type: application/json
 
 {
@@ -28,12 +29,12 @@ Content-Type: application/json
 ###
 
 @id=7
-DELETE {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+DELETE {{HostAddress}}/api/restaurants/{{id}}
 
 ###
 
 @id=8
-PATCH {{Restaurants.API_HostAddress}}/api/restaurants/{{id}}
+PATCH {{HostAddress}}/api/restaurants/{{id}}
 Content-Type: application/json
 
 {
@@ -44,3 +45,34 @@ Content-Type: application/json
 }
 
 ###
+
+
+POST {{HostAddress}}/api/identity/register
+Content-Type: application/json
+
+{
+  "email": "testuser@test.com",
+  "password": "Password1!"
+}
+
+###
+
+POST {{HostAddress}}/api/identity/login
+Content-Type: application/json
+
+{
+  "email": "testuser@test.com",
+  "password": "Password1!"
+}
+
+
+###
+
+PATCH {{HostAddress}}/api/identity/user
+Content-Type: application/json
+Authorization: Bearer {{Token}}
+
+{
+  "nationality": "American",
+  "dateOfBirth": "1984-07-24"
+}

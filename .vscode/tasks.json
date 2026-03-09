@@ -120,7 +120,7 @@
             }
         },
         {
-            "label": "Docker: Clean Environment",
+            "label": "clean-environment",
             "type": "shell",
             "command": "docker compose down -v && rm -f ./scripts/environment/.migrations_applied",
             "presentation": {

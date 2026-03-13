@@ -1,10 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Restaurants.Application.Context.Interface;
 using Restaurants.Domain.Entities.Identity;
 using Restaurants.Domain.Exceptions;
 
-namespace Restaurants.Application.Users.UpdateUserDetailsCommand;
+namespace Restaurants.Application.Users.UpdateUserDetails;
+
 
 public class UpdateUserDetailsCommandHandler(ILogger<UpdateUserDetailsCommand> logger,
                                              IUserContext userContext,

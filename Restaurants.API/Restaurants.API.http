@@ -1,29 +1,29 @@
 @HostAddress = https://localhost:7009
-@Token = CfDJ8FvuZwcgo9BBlYwrSDGnb88HrTPICcQpReE81PVvQCUfkWDeNurtV4KcLVENeWFhRz2bLCQvuK6OfL-7e0z-qGsft3rQCkPh6YHD5TZNHBtH7R_MCCuG7XpzPLyxz9ABNo8DNlezVL4j4b8gWQA0Y67ANLgKis5dq9tcZgzvfTYCTogwHtfD9JAyXC-CrsNeavx-LWaoxEZQWp_8ebEH79tIWL5kfkq_9kz50Ck2JCuKxGM3kt0-ySYHTiocWrLaj6xb2lnvLy14R_J_49AERSQez0R3xIi04xLEJfOKwDgp_IK9jT530bh6VN5RnHPviRPg3DEjKPJckAIijC3BZ6rg4t8afa_VXKLJI9ZdE1hMyUkx-V2XIEnAX_29_dVTzSt3VgjD2Tz_H1hsaXlfyg5XW_TI_OP_NjyvJsnD40F9LZZQeA9RxyjBNIJ9e7MxM51V21XIx9dVXqNZARm-T2uwGaNB2rO8cEkCPlkIHbT1wBd1iyvAJb5yPtekB7-SSowpqkszIfz8NfEWt52ltYHEe_Cm0x8d6UUfHs9TEcAE8ne5vVGBvixfepQ_LOhGkNXbLbnEEuSbpXZxdulSkkpQxKicclNzgRo2zrFFfI9xNit8-Rjo6kwXTYZ2YJq4z5JLBk-RcOFBnu3MQl9LXS4-zh-09uBMB_Jn7HeaU3ffuuvHVhejh_oTV_YaIlUB9w
-
+@Token = CfDJ8FvuZwcgo9BBlYwrSDGnb899Bm1bod98cPkSXP-1X8gqlfDLTPigItdSygoz2wtf_bkU4wileDKmTg4NV8ujRB2ahyarqqhbIsA_nacynfuF4Pi1b700S39ORGVt4I_aYuGNph9zqCTQlRoNBLhBPJsCduUdpaDT_B6J5GN-yo-tUyZQzOqeE_6MzSeSLP-any6AbdCP-SGVZDVsJjG7vri2eNuk8P5Sa5xdHC1rNG56IUyWAlrMi7mZbCe4mBoWiApzBnUlOXmlQyuc1qPAEWPVZeX3aCZl18tz2y-xTRXCKKCGu_tfTvEb_cSIwNRXF6VoaEaSo18mdMppoZWOhB5_J1G2fX2V-yp5OziVxiKiIHVUu345rDbhUKHdb355QjPmWhpe83Li39Azh1i7vJqRjBxCkme3th60Dz_4pBkICDOIZa4-VNLfMD2P6KYYm0of7lSMr1agFbTBLSk2m7FEW7aqw1eZVHf-hgkGKFGoRMNNLQbVRCi1WeOMipQUFxCQQPP2kbA3cqlvqiNnAf3DNl8E0NVl4-tWvM0XKiWeThGqufJUrnHaw5yYS3URWNfWMYbsBlr0j7NJwXP8OY1ll_9x2z7zMk8tc3HglHKCVDVhHWhb0hz0V_KFju1QFYXeFQoc9vSv_5BJ8RnarnP49aY91hOyJc7IAn4m_JNP4Mv9Jdekg34OvvcJktoXfjVOmzOZNy3VA7hAihQm7Bk0uoL93NldHwF3PwhM_rUUyWM_6b94Wb-LC6X2VG4KO5rq4iJNYKqYEFHFQYbaXUoV-q6AGSCwxpkedwjAiga5
 ###
 
 GET {{HostAddress}}/api/restaurants
 
 ###
 
-GET {{HostAddress}}/api/restaurants/1
+GET {{HostAddress}}/api/restaurants/1002
 Authorization: Bearer {{Token}}
 ###
 
 POST {{HostAddress}}/api/restaurants
+Authorization: Bearer {{Token}}
 Content-Type: application/json
 
 {
-  "Name": "Sunset Grill & Smokehouse",
-  "Description": "A cozy American BBQ restaurant specializing in slow-smoked brisket, ribs, and classic Southern comfort food.",
-  "Category": "American",
+  "Name": "Casa Lusitana",
+  "Description": "A traditional Portuguese restaurant serving authentic dishes like bacalhau à brás, francesinha, and pastéis de nata in a warm, rustic setting.",
+  "Category": "Portuguese",
   "HasDelivery": true,
-  "ContactEmail": "info@sunsetgrillsmokehouse.com",
-  "ContactNumber": "(512) 555-2847",
-  "City": "Austin",
-  "Street": "7423 Maple Ridge Drive",
-  "PostalCode": "78727"
+  "ContactEmail": "info@casalusitana.com",
+  "ContactNumber": "(617) 555-0198",
+  "City": "Boston",
+  "Street": "124 Cambridge Street",
+  "PostalCode": "02114"
 }
 
 ###
@@ -46,12 +46,11 @@ Content-Type: application/json
 
 ###
 
-
 POST {{HostAddress}}/api/identity/register
 Content-Type: application/json
 
 {
-  "email": "testuser@test.com",
+  "email": "admin@test.com",
   "password": "Password1!"
 }
 
@@ -61,10 +60,20 @@ POST {{HostAddress}}/api/identity/login
 Content-Type: application/json
 
 {
-  "email": "testuser@test.com",
+  "email": "owner@test.com",
   "password": "Password1!"
 }
 
+###
+
+POST {{HostAddress}}/api/identity/userRole
+content-Type: application/json
+Authorization: Bearer {{Token}}
+
+{
+  "userEmail": "owner@test.com",
+  "roleName": "Owner"
+}
 
 ###
 
@@ -73,6 +82,28 @@ Content-Type: application/json
 Authorization: Bearer {{Token}}
 
 {
-  "nationality": "American",
+  "nationality": "German",
   "dateOfBirth": "1984-07-24"
 }
+
+###
+
+GET {{HostAddress}}/api/restaurants/1/dishes
+Authorization: Bearer {{Token}}
+
+###
+
+@id=4
+PATCH {{HostAddress}}/api/restaurants/{{id}}
+Content-Type: application/json
+Authorization: Bearer {{Token}}
+
+{
+  "name": "Green Garden",
+  "description": "Plant-based eatery nestled in the heart of nature. The venue boasts both indoor and outdoor seating, providing a relaxed yet refined dining experience. Guests consistently praise the exceptional food, friendly service, and beautiful natural setting, making it a perfect spot for celebrations or a delightful meal out.For those seeking a holistic experience, Greenhouse Canteen and Bar is part of the Greenhouse the Bathhouse complex, which also offers wellness services such as soak sessions and intuitive massages, all set amidst the serene Tallebudgera Valley."
+}
+
+###
+
+DELETE {{HostAddress}}/api/restaurants/5
+Authorization: Bearer {{Token}}

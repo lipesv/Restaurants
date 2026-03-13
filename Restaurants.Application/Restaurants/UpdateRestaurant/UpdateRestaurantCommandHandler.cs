@@ -2,6 +2,8 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Restaurants.Application.Restaurants.CreateRestaurant;
+using Restaurants.Domain.Authorization.Enums;
+using Restaurants.Domain.Authorization.Interfaces;
 using Restaurants.Domain.Entities;
 using Restaurants.Domain.Exceptions;
 using Restaurants.Domain.Repositories;
@@ -10,7 +12,8 @@ namespace Restaurants.Application.Restaurants.UpdateRestaurant;
 
 public class UpdateRestaurantCommandHandler(ILogger<CreateRestaurantCommandHandler> logger,
                                             IRestaurantsRepository restaurantsRepository,
-                                            IMapper mapper) : IRequestHandler<UpdateRestaurantCommand>
+                                            IMapper mapper,
+                                            IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<UpdateRestaurantCommand>
 {
     public async Task Handle(UpdateRestaurantCommand command, CancellationToken cancellationToken)
     {
@@ -21,9 +24,11 @@ public class UpdateRestaurantCommandHandler(ILogger<CreateRestaurantCommandHandl
         var restaurantToUpdate = await restaurantsRepository.GetByIdAsync(command.Id);
 
         if (restaurantToUpdate is null)
-        {
             throw new NotFoundException(nameof(Restaurant), command.Id.ToString());
-        }
+
+
+        if (!restaurantAuthorizationService.Authorize(restaurantToUpdate, ResourceOperation.Update))
+            throw new ForbiddenException();
 
         mapper.Map(command, restaurantToUpdate);
 

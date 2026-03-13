@@ -6,10 +6,6 @@ public class UpdateRestaurantCommandValidator : AbstractValidator<UpdateRestaura
 {
     public UpdateRestaurantCommandValidator()
     {
-        RuleFor(x => x.Id)
-            .GreaterThan(0)
-            .WithMessage("Restaurant Id must be greater than zero.");
-
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage("Restaurant name is required.")
@@ -18,6 +14,6 @@ public class UpdateRestaurantCommandValidator : AbstractValidator<UpdateRestaura
 
         RuleFor(x => x.Description)
             .NotEmpty()
-            .WithMessage("Description is required.");        
+            .WithMessage("Description is required.");
     }
 }

@@ -1,8 +1,9 @@
 @HostAddress = https://localhost:7009
-@Token = CfDJ8FvuZwcgo9BBlYwrSDGnb899Bm1bod98cPkSXP-1X8gqlfDLTPigItdSygoz2wtf_bkU4wileDKmTg4NV8ujRB2ahyarqqhbIsA_nacynfuF4Pi1b700S39ORGVt4I_aYuGNph9zqCTQlRoNBLhBPJsCduUdpaDT_B6J5GN-yo-tUyZQzOqeE_6MzSeSLP-any6AbdCP-SGVZDVsJjG7vri2eNuk8P5Sa5xdHC1rNG56IUyWAlrMi7mZbCe4mBoWiApzBnUlOXmlQyuc1qPAEWPVZeX3aCZl18tz2y-xTRXCKKCGu_tfTvEb_cSIwNRXF6VoaEaSo18mdMppoZWOhB5_J1G2fX2V-yp5OziVxiKiIHVUu345rDbhUKHdb355QjPmWhpe83Li39Azh1i7vJqRjBxCkme3th60Dz_4pBkICDOIZa4-VNLfMD2P6KYYm0of7lSMr1agFbTBLSk2m7FEW7aqw1eZVHf-hgkGKFGoRMNNLQbVRCi1WeOMipQUFxCQQPP2kbA3cqlvqiNnAf3DNl8E0NVl4-tWvM0XKiWeThGqufJUrnHaw5yYS3URWNfWMYbsBlr0j7NJwXP8OY1ll_9x2z7zMk8tc3HglHKCVDVhHWhb0hz0V_KFju1QFYXeFQoc9vSv_5BJ8RnarnP49aY91hOyJc7IAn4m_JNP4Mv9Jdekg34OvvcJktoXfjVOmzOZNy3VA7hAihQm7Bk0uoL93NldHwF3PwhM_rUUyWM_6b94Wb-LC6X2VG4KO5rq4iJNYKqYEFHFQYbaXUoV-q6AGSCwxpkedwjAiga5
+@Token = CfDJ8FvuZwcgo9BBlYwrSDGnb8-bg55Nzt-Gz1SaTZcI9Yi1Kvg5qa6e1sTzlvErWITs5H1GUY9arLhlbi9p5LNWdtiqLhDRl1jhxL5xe4yEzS7dHxoteQybq3doVqtz9L-e-u3gjA97qPVI0_VlAaBdcfhoppFP7vjJzhEhukEdbfqlvgQmgVjpJ-8MVwhFyOQETcoyLA8ISKqQkIeeAuEhDVUdtJNu5MLhBAta6F9tJ85NpUewdCvJ8R5BsxbAzTGF1yWMrT7wfPYGFs_PE9Mz9s6FsmN9C7IfdowOTlTqaJ7X9J4Pc1CYbD2Gne7qcYUMd1S5ET190_5GJD6ItR2U3zwibyZ03NAORnExjidzvxf25Zaua4Gg28gQqxePX2-boTnFS5KUUkYZLZb8F0hup8s88rQbce4A1jhaeI4-K0DY0zWBtkMZEWn_pHii1Mf7WX70rNFFXhsym_CMrqicVf-FhKN3WCbABW1cGfoBMJxlA545j-tRbW2OUcOvKI8azuMF-h6FQQTLKMZbV57NdR99Jd2XOfyFSzVH0c4AIfWvZTYIG1Y_gwjNFexI3WLZgGy-eh8p4ctWJJ4_9BABkAGcp91lpAUltoaL3w6ug1KbhueuaUwsdl_StVl4wT7r76pAMIxrj97w5ybzUiiOCxbkUhRFucXtrXsIAgSEq240DVUuwwSAJBHBlYBk6_YZwoREcko7N4YXSebY575C7WgqSh33Z5QFhG2tAguDobkzstBvnU5_FKlNDF03voOpSI6L4iKv1zdUfd6SqG61l-47lho01rQaMiFn4AiKe3qN
 ###
 
 GET {{HostAddress}}/api/restaurants
+Authorization: Bearer {{Token}}
 
 ###
 
@@ -50,7 +51,7 @@ POST {{HostAddress}}/api/identity/register
 Content-Type: application/json
 
 {
-  "email": "admin@test.com",
+  "email": "owner@test.com",
   "password": "Password1!"
 }
 
@@ -60,7 +61,7 @@ POST {{HostAddress}}/api/identity/login
 Content-Type: application/json
 
 {
-  "email": "owner@test.com",
+  "email": "owner3@test.com",
   "password": "Password1!"
 }
 
@@ -71,7 +72,7 @@ content-Type: application/json
 Authorization: Bearer {{Token}}
 
 {
-  "userEmail": "owner@test.com",
+  "userEmail": "owner3@test.com",
   "roleName": "Owner"
 }
 

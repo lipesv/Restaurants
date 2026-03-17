@@ -8,6 +8,8 @@ public interface IRestaurantsRepository
 
     Task<Restaurant?> GetByIdAsync(int id);
 
+    Task<IEnumerable<Restaurant>> GetByOwnerIdAsync(string ownerId);
+
     Task<int> CreateAsync(Restaurant restaurant);
 
     Task DeleteAsync(Restaurant restaurant);

@@ -23,6 +23,14 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
         return restaurant;
     }
 
+    public async Task<IEnumerable<Restaurant>> GetByOwnerIdAsync(string ownerId)
+    {
+        var restaurants = await dbContext.Restaurants.Where(r => r.OwnerId == ownerId)
+                                                                        .ToListAsync();
+        
+        return restaurants;
+    }
+
     public async Task<int> CreateAsync(Restaurant restaurant)
     {
         dbContext.Restaurants.Add(restaurant);
@@ -42,4 +50,6 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
     {
         await dbContext.SaveChangesAsync();
     }
+
+    
 }

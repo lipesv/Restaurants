@@ -7,9 +7,10 @@ using Restaurants.Domain.Authorization.Interfaces;
 using Restaurants.Domain.Entities.Identity;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Auth.Policies;
-using Restaurants.Infrastructure.Auth.Policies.Requirements;
 using Restaurants.Infrastructure.Auth.Policies.Requirements.Handlers;
 using Restaurants.Infrastructure.Authorization.Factory;
+using Restaurants.Infrastructure.Authorization.Policies.Requirements.Handlers;
+using Restaurants.Infrastructure.Authorization.Policies.Requirements;
 using Restaurants.Infrastructure.Authorization.Services;
 using Restaurants.Infrastructure.Persistence;
 using Restaurants.Infrastructure.Repositories;
@@ -49,9 +50,14 @@ public static class ServiceCollectionExtensions
                 .AddPolicy(PolicyNames.AtLeast20, builder =>
                 {
                     builder.AddRequirements(new MinimumAgeRequirement(20));
+                })
+                .AddPolicy(PolicyNames.MultiOwnerPolicy, builder =>
+                {
+                    builder.AddRequirements(new MinimumRestaurantsRequirement(2));
                 });
 
         services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
+        services.AddScoped<IAuthorizationHandler, MinimumRestaurantsRequirementHandler>();
 
         services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
     }

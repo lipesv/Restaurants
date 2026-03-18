@@ -3,6 +3,4 @@ using Restaurants.Application.Dtos.Restaurants;
 
 namespace Restaurants.Application.Restaurants.GetRestaurants;
 
-public class GetRestaurantsQuery : IRequest<IEnumerable<RestaurantDto>>
-{
-}
+public record GetRestaurantsQuery(string? SearchPhrase) : IRequest<IEnumerable<RestaurantDto>>;

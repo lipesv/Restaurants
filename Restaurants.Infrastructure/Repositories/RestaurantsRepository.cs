@@ -7,11 +7,28 @@ namespace Restaurants.Infrastructure.Repositories;
 
 internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaurantsRepository
 {
-
-
     public async Task<IEnumerable<Restaurant>> GetAllAsync()
     {
         var restaurants = await dbContext.Restaurants.ToListAsync();
+        return restaurants;
+    }
+
+    /// <summary>
+    /// Retrieves all restaurants that match the given search phrase in their name or description.
+    /// </summary>
+    /// <param name="searchPhrase">The phrase to search for in restaurant names or descriptions. If null or empty, all restaurants are returned.</param>
+    /// <returns>A collection of restaurants matching the search criteria.</returns>
+    public async Task<IEnumerable<Restaurant>> GetAllMatchingAsync(string? searchPhrase)
+    {
+        var query = dbContext.Restaurants.AsQueryable();
+
+        if (!string.IsNullOrEmpty(searchPhrase))
+        {
+            query = query.Where(r => EF.Functions.Like(r.Name, $"%{searchPhrase}%")
+                                     || EF.Functions.Like(r.Description, $"%{searchPhrase}%"));
+        }
+
+        var restaurants = await query.ToListAsync();
         return restaurants;
     }
 
@@ -27,16 +44,16 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
     {
         var restaurants = await dbContext.Restaurants.Where(r => r.OwnerId == ownerId)
                                                                         .ToListAsync();
-        
+
         return restaurants;
     }
 
     public async Task<int> CreateAsync(Restaurant restaurant)
     {
         dbContext.Restaurants.Add(restaurant);
-        
+
         await dbContext.SaveChangesAsync();
-        
+
         return restaurant.Id;
     }
 
@@ -50,6 +67,4 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
     {
         await dbContext.SaveChangesAsync();
     }
-
-    
 }

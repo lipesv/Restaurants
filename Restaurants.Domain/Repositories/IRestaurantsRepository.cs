@@ -6,6 +6,8 @@ public interface IRestaurantsRepository
 {
     Task<IEnumerable<Restaurant>> GetAllAsync();
 
+    Task<IEnumerable<Restaurant>> GetAllMatchingAsync(string? searchPhrase);
+
     Task<Restaurant?> GetByIdAsync(int id);
 
     Task<IEnumerable<Restaurant>> GetByOwnerIdAsync(string ownerId);

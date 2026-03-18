@@ -8,24 +8,17 @@ using Restaurants.Domain.Repositories;
 namespace Restaurants.Application.Restaurants.GetAllRestaurants;
 
 public class GetRestaurantsQueryHandler(ILogger<GetRestaurantsQueryHandler> logger,
-                                           IMapper mapper,
-                                           IRestaurantsRepository restaurantsRepository) : IRequestHandler<GetRestaurantsQuery, IEnumerable<RestaurantDto>>
+                                        IMapper mapper,
+                                        IRestaurantsRepository restaurantsRepository) : IRequestHandler<GetRestaurantsQuery, IEnumerable<RestaurantDto>>
 {
     public async Task<IEnumerable<RestaurantDto>> Handle(GetRestaurantsQuery request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Fetching all restaurants");
+        logger.LogInformation("Getting all restaurants");
 
-        try
-        {
-            var restaurants = await restaurantsRepository.GetAllAsync();
+        var restaurants = await restaurantsRepository.GetAllMatchingAsync(request.SearchPhrase);
 
-            var restaurantsDto = mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
+        var restaurantsDto = mapper.Map<IEnumerable<RestaurantDto>>(restaurants);
 
-            return restaurantsDto;
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        return restaurantsDto;
     }
 }

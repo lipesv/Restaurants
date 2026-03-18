@@ -18,7 +18,7 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
     /// </summary>
     /// <param name="searchPhrase">The phrase to search for in restaurant names or descriptions. If null or empty, all restaurants are returned.</param>
     /// <returns>A collection of restaurants matching the search criteria.</returns>
-    public async Task<IEnumerable<Restaurant>> GetAllMatchingAsync(string? searchPhrase)
+    public async Task<(IEnumerable<Restaurant>, int)> GetAllMatchingAsync(string? searchPhrase, int pageNumber, int pageSize)
     {
         var query = dbContext.Restaurants.AsQueryable();
 
@@ -28,8 +28,13 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
                                      || EF.Functions.Like(r.Description, $"%{searchPhrase}%"));
         }
 
-        var restaurants = await query.ToListAsync();
-        return restaurants;
+        var totalCount = await query.CountAsync();
+        
+        var restaurants = await query.Skip(pageSize * (pageNumber - 1))
+                                     .Take(pageSize)
+                                     .ToListAsync();
+
+        return (restaurants, totalCount);
     }
 
     public async Task<Restaurant?> GetByIdAsync(int id)

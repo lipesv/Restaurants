@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Restaurants.Domain.Entities;
+using Restaurants.Domain.Enums;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Persistence;
 
@@ -18,7 +20,11 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
     /// </summary>
     /// <param name="searchPhrase">The phrase to search for in restaurant names or descriptions. If null or empty, all restaurants are returned.</param>
     /// <returns>A collection of restaurants matching the search criteria.</returns>
-    public async Task<(IEnumerable<Restaurant>, int)> GetAllMatchingAsync(string? searchPhrase, int pageNumber, int pageSize)
+    public async Task<(IEnumerable<Restaurant>, int)> GetAllMatchingAsync(string? searchPhrase,
+                                                                          int pageNumber,
+                                                                          int pageSize,
+                                                                          string? sortBy,
+                                                                          SortDirection sortDirection)
     {
         var query = dbContext.Restaurants.AsQueryable();
 
@@ -29,7 +35,23 @@ internal class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaura
         }
 
         var totalCount = await query.CountAsync();
-        
+
+        if (!string.IsNullOrEmpty(sortBy))
+        {
+            var columnsSelector = new Dictionary<string, Expression<Func<Restaurant, object>>>
+            {
+                { nameof(Restaurant.Name), r => r.Name },
+                { nameof(Restaurant.Description), r => r.Description },
+                { nameof(Restaurant.Category), r => r.Category }
+            };
+
+            if (columnsSelector.TryGetValue(sortBy, out var expression))
+            {
+                query = sortDirection
+                        == SortDirection.Ascending ? query.OrderBy(expression) : query.OrderByDescending(expression);
+            }
+        }
+
         var restaurants = await query.Skip(pageSize * (pageNumber - 1))
                                      .Take(pageSize)
                                      .ToListAsync();

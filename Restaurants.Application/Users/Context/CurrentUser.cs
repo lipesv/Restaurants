@@ -1,4 +1,4 @@
-namespace Restaurants.Application.Context;
+namespace Restaurants.Application.Users.Context;
 
 public record CurrentUser(string Id,
                           string Email,

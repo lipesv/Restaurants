@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using Restaurants.Application.Context.Interface;
+using Restaurants.Application.Users.Context.Interface;
 using Restaurants.Domain.Authorization.Enums;
 using Restaurants.Domain.Authorization.Interfaces;
 using Restaurants.Domain.Entities;

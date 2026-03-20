@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using Restaurants.Application.Context.Interface;
+using Restaurants.Application.Users.Context.Interface;
 using Restaurants.Domain.Entities.Identity;
 using Restaurants.Domain.Exceptions;
 

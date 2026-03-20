@@ -1,6 +1,3 @@
-using Restaurants.Domain.Entities;
-using Restaurants.Domain.Repositories;
-using Restaurants.Infrastructure.Persistence;
 namespace Restaurants.Infrastructure.Repositories;
 
 internal class DishesRepository(RestaurantsDbContext dbContext) : IDishesRepository

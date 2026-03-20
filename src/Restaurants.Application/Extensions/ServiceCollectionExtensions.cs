@@ -1,7 +1,6 @@
-﻿using FluentValidation;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
-using Restaurants.Application.Context;
+using Restaurants.Application.Users.Context;
 using Restaurants.Application.Users.Context.Interface;
 
 namespace Restaurants.Application.Extensions;

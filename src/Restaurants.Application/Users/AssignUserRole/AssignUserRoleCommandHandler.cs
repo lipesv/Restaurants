@@ -1,9 +1,3 @@
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using Restaurants.Domain.Entities.Identity;
-using Restaurants.Domain.Exceptions;
-
 namespace Restaurants.Application.Users.AssignUserRole;
 
 public class AssignUserRoleCommandHandler(ILogger<AssignUserRoleCommandHandler> logger,

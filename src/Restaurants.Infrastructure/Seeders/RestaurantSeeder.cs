@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Restaurants.Domain.Constants;
-using Restaurants.Domain.Entities;
-using Restaurants.Infrastructure.Persistence;
-using Restaurants.Infrastructure.Seeders.Interfaces;
+﻿using Restaurants.Domain.Constants;
 
 namespace Restaurants.Infrastructure.Seeders;
 

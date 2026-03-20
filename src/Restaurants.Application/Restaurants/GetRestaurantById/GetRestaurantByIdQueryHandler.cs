@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using Restaurants.Application.Dtos.Restaurants;
-using Restaurants.Domain.Entities;
-using Restaurants.Domain.Exceptions;
-using Restaurants.Domain.Repositories;
-
-namespace Restaurants.Application.Restaurants.GetRestaurantById;
+﻿namespace Restaurants.Application.Restaurants.GetRestaurantById;
 
 public class GetRestaurantByIdQueryHandler(ILogger<GetRestaurantByIdQueryHandler> logger,
                                            IMapper mapper,

@@ -1,0 +1,14 @@
+global using Restaurants.Application.Dtos.Restaurants;
+global using Restaurants.Application.Dtos.Dishes;
+global using MediatR;
+global using AutoMapper;
+global using FluentValidation;
+global using Restaurants.Domain.Entities;
+global using Restaurants.Domain.Repositories;
+global using Restaurants.Domain.Exceptions;
+global using Restaurants.Domain.Authorization.Interfaces;
+global using Restaurants.Domain.Authorization.Enums;
+global using Microsoft.Extensions.Logging;
+global using Restaurants.Application.Common;
+global using Microsoft.AspNetCore.Identity;
+global using Restaurants.Domain.Entities.Identity;

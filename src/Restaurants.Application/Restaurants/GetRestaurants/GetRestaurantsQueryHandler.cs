@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using Restaurants.Application.Common;
-using Restaurants.Application.Dtos.Restaurants;
-using Restaurants.Application.Restaurants.GetRestaurants;
-using Restaurants.Domain.Repositories;
+﻿using Restaurants.Application.Restaurants.GetRestaurants;
 
 namespace Restaurants.Application.Restaurants.GetAllRestaurants;
 

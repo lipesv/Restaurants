@@ -1,14 +1,8 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Restaurants.Application.Dtos.Restaurants;
-using Restaurants.Application.Restaurants.CreateRestaurant;
+﻿using Restaurants.Application.Restaurants.CreateRestaurant;
 using Restaurants.Application.Restaurants.DeleteRestaurant;
 using Restaurants.Application.Restaurants.GetRestaurantById;
 using Restaurants.Application.Restaurants.GetRestaurants;
 using Restaurants.Application.Restaurants.UpdateRestaurant;
-using Restaurants.Domain.Constants;
-using Restaurants.Infrastructure.Auth.Policies;
 
 namespace Restaurants.API.Controllers;
 

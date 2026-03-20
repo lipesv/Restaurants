@@ -1,9 +1,5 @@
 ﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-using Restaurants.Domain.Entities;
 using Restaurants.Domain.Enums;
-using Restaurants.Domain.Repositories;
-using Restaurants.Infrastructure.Persistence;
 
 namespace Restaurants.Infrastructure.Repositories;
 

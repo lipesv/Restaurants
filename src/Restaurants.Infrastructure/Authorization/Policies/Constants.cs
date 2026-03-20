@@ -1,6 +1,5 @@
 namespace Restaurants.Infrastructure.Auth.Policies;
 
-
 public static class PolicyNames
 {
     public const string HasNationality = "HasNationality";

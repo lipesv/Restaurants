@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace Restaurants.Application.Restaurants.UpdateRestaurant;
+﻿namespace Restaurants.Application.Restaurants.UpdateRestaurant;
 
 public record UpdateRestaurantCommand(int Id, bool HasDelivery) : IRequest
 {

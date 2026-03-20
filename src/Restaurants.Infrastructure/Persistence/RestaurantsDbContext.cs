@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Restaurants.Domain.Entities;
-using Restaurants.Domain.Entities.Identity;
 
 namespace Restaurants.Infrastructure.Persistence;
 

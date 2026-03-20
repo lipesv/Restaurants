@@ -1,7 +1,4 @@
-﻿using MediatR;
-using Restaurants.Application.Common;
-using Restaurants.Application.Dtos.Restaurants;
-using Restaurants.Domain.Enums;
+﻿using Restaurants.Domain.Enums;
 
 namespace Restaurants.Application.Restaurants.GetRestaurants;
 

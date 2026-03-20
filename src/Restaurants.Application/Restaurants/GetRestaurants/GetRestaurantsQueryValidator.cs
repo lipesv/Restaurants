@@ -1,6 +1,3 @@
-using FluentValidation;
-using Restaurants.Application.Dtos.Restaurants;
-
 namespace Restaurants.Application.Restaurants.GetRestaurants;
 
 public class GetRestaurantsQueryValidator : AbstractValidator<GetRestaurantsQuery>

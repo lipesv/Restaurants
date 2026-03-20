@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using Restaurants.Application.Dishes.CreateDish;
-using Restaurants.Application.Dtos.Dishes;
-using Restaurants.Domain.Entities;
+﻿using Restaurants.Application.Dishes.CreateDish;
 
 namespace Restaurants.Application.Dtos.Profiles;
 

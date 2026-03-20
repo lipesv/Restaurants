@@ -1,12 +1,7 @@
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Restaurants.Application.Dishes.CreateDish;
 using Restaurants.Application.Dishes.DeleteDishesForRestaurant;
 using Restaurants.Application.Dishes.GetDishById;
 using Restaurants.Application.Dishes.GetDishesByRestaurantId;
-using Restaurants.Application.Dtos.Dishes;
-using Restaurants.Infrastructure.Auth.Policies;
 
 namespace Restaurants.API.Controllers;
 

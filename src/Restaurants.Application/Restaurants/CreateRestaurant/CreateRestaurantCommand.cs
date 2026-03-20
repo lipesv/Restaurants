@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace Restaurants.Application.Restaurants.CreateRestaurant;
+﻿namespace Restaurants.Application.Restaurants.CreateRestaurant;
 
 public record CreateRestaurantCommand(bool HasDelivery,
                                       string? ContactEmail,

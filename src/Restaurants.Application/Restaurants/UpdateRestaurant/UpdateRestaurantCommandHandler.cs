@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using Restaurants.Application.Restaurants.CreateRestaurant;
-using Restaurants.Domain.Authorization.Enums;
-using Restaurants.Domain.Authorization.Interfaces;
-using Restaurants.Domain.Entities;
-using Restaurants.Domain.Exceptions;
-using Restaurants.Domain.Repositories;
+﻿using Restaurants.Application.Restaurants.CreateRestaurant;
 
 namespace Restaurants.Application.Restaurants.UpdateRestaurant;
 

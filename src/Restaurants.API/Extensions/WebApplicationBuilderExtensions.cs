@@ -1,6 +1,5 @@
 using Microsoft.OpenApi.Models;
 using Restaurants.API.Middlewares;
-using Serilog;
 
 namespace Restaurants.API.Extensions;
 

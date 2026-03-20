@@ -1,6 +1,4 @@
-﻿using Restaurants.Application.Dtos.Dishes;
-
-namespace Restaurants.Application.Dtos.Restaurants;
+﻿namespace Restaurants.Application.Dtos.Restaurants;
 
 public record RestaurantDto(int Id, bool HasDelivery, string? City, string? Street, string? PostalCode)
 {

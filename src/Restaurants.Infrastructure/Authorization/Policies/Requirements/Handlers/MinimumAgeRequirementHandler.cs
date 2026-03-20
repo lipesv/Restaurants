@@ -1,9 +1,6 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
 using Restaurants.Application.Users.Context.Interface;
-using Restaurants.Infrastructure.Authorization.Policies.Requirements;
 
-namespace Restaurants.Infrastructure.Auth.Policies.Requirements.Handlers;
+namespace Restaurants.Infrastructure.Authorization.Policies.Requirements.Handlers;
 
 public class MinimumAgeRequirementHandler(ILogger<MinimumAgeRequirementHandler> logger,
                                           IUserContext userContext) : AuthorizationHandler<MinimumAgeRequirement>

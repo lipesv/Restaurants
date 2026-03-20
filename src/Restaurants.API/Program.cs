@@ -4,7 +4,6 @@ using Restaurants.Application.Extensions;
 using Restaurants.Domain.Entities.Identity;
 using Restaurants.Infrastructure.Extensions;
 using Restaurants.Infrastructure.Seeders.Interfaces;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 

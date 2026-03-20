@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Restaurants.Application.Dishes.CreateDish;
 
 public record CreateDishCommand(decimal Price,

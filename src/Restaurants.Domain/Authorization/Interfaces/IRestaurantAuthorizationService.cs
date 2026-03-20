@@ -1,5 +1,4 @@
 using Restaurants.Domain.Authorization.Enums;
-using Restaurants.Domain.Entities;
 
 namespace Restaurants.Domain.Authorization.Interfaces;
 

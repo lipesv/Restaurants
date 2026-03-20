@@ -1,5 +1,4 @@
 using Microsoft.OpenApi.Models;
-using Restaurants.API.Middlewares;
 
 namespace Restaurants.API.Extensions;
 

@@ -1,5 +1,3 @@
-using Restaurants.Application.Users.Context.Interface;
-
 namespace Restaurants.Application.Users.UpdateUserDetails;
 
 

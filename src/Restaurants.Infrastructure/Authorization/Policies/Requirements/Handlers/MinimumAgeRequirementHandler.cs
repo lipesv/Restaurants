@@ -1,5 +1,3 @@
-using Restaurants.Application.Users.Context.Interface;
-
 namespace Restaurants.Infrastructure.Authorization.Policies.Requirements.Handlers;
 
 public class MinimumAgeRequirementHandler(ILogger<MinimumAgeRequirementHandler> logger,

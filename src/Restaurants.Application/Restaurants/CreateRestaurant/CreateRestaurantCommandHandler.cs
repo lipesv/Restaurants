@@ -1,5 +1,3 @@
-﻿using Restaurants.Application.Users.Context.Interface;
-
 namespace Restaurants.Application.Restaurants.CreateRestaurant;
 
 public class CreateRestaurantCommandHandler(ILogger<CreateRestaurantCommandHandler> logger,

@@ -1,5 +1,3 @@
-﻿using Restaurants.Application.Restaurants.CreateRestaurant;
-
 namespace Restaurants.Application.Restaurants.UpdateRestaurant;
 
 public class UpdateRestaurantCommandHandler(ILogger<CreateRestaurantCommandHandler> logger,

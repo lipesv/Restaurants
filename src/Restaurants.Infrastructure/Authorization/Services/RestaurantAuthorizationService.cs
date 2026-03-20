@@ -1,4 +1,3 @@
-using Restaurants.Application.Users.Context.Interface;
 using Restaurants.Domain.Authorization.Enums;
 
 

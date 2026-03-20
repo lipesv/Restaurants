@@ -1,4 +1,3 @@
-﻿using Restaurants.Application.Restaurants.CreateRestaurant;
 using Restaurants.Application.Restaurants.UpdateRestaurant;
 
 namespace Restaurants.Application.Dtos.Profiles;

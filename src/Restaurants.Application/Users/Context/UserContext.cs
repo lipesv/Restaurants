@@ -1,7 +1,6 @@
+using Microsoft.AspNetCore.Http;
 using System.Globalization;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using Restaurants.Application.Users.Context.Interface;
 
 namespace Restaurants.Application.Users.Context;
 

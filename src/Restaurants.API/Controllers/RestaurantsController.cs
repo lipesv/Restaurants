@@ -36,15 +36,20 @@ public class RestaurantsController(IMediator mediator) : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
+
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromRoute] int id, UpdateRestaurantCommand command)
+    public async Task<IActionResult> Update(
+        [FromRoute] int id,
+        [FromBody] UpdateRestaurantCommand command)
     {
-        command.Id = id;
-        await mediator.Send(command);
+        var updateCommand = command with { Id = id };
+
+        await mediator.Send(updateCommand);
         return NoContent();
     }
+
 
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

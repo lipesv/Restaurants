@@ -5,7 +5,94 @@
                 "foreground": "#b8ce82"
             },
             "namespace": "#ccc",
-            "enum": "#b8ce82"
+            "enum": "#b8ce82",
+            "struct": {
+                "foreground": "#86C691"
+            }
         }
+    },
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "keyword.control.sql, keyword.control.client.sql, keyword.control.set.sql",
+                "settings": {
+                    "foreground": "#569CD6"
+                }
+            },
+            {
+                "scope": "storage.type.string.sql, storage.type.numeric.sql, storage.type.datetime.sql",
+                "settings": {
+                    "foreground": "#9CDCFE"
+                }
+            },
+            {
+                "scope": "support.function.string.sql, support.function.numeric.sql, support.function.datetime.sql, support.function.advanced.sql",
+                "settings": {
+                    "foreground": "#DCDCAA"
+                }
+            },
+            {
+                "scope": "string.quoted.single.sql, string.quoted.double.sql, string.quoted.multi-line.sql, string.quoted.backtick.sql",
+                "settings": {
+                    "foreground": "#CE9178"
+                }
+            },
+            {
+                "scope": "constant.numeric.sql",
+                "settings": {
+                    "foreground": "#B5CEA8"
+                }
+            },
+            {
+                "scope": "comment.line.double-dash.sql, comment.block.sql, comment.line.hash.sql, comment.conditional.sql",
+                "settings": {
+                    "foreground": "#6A9955"
+                }
+            },
+            {
+                "scope": "keyword.operator.sql, keyword.operator.advanced.sql",
+                "settings": {
+                    "foreground": "#D4D4D4"
+                }
+            },
+            {
+                "scope": "entity.name.function.sql, entity.name.table.sql, entity.name.column.sql, variable.global.sql, variable.session.sql, variable.other.sql, variable.user-defined.sql",
+                "settings": {
+                    "foreground": "#D4D4D4"
+                }
+            },
+            {
+                "scope": [
+                    "punctuation.definition.bracket"
+                ],
+                "settings": {
+                    "foreground": "#D4D4D4"
+                }
+            },
+            {
+                "scope": "entity.name.type.interface.cs",
+                "settings": {
+                    "foreground": "#b8ce82"
+                }
+            },
+            {
+                "scope": "entity.name.type.enum.cs",
+                "settings": {
+                    "foreground": "#b8ce82"
+                }
+            },
+            {
+                "scope": "entity.name.type.struct.cs",
+                "settings": {
+                    "foreground": "#86C691"
+                }
+            },
+            {
+                "scope": "variable.other.enummember.cs",
+                "settings": {
+                    "foreground": "#4FC1FF"
+                }
+            }
+        ]
     }
 }

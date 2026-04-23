@@ -1,5 +1,5 @@
-using System.Security.Claims;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 namespace Restaurants.Infrastructure.Authorization.Factory;
 

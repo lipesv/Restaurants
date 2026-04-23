@@ -1,9 +1,5 @@
-using System.Security.Claims;
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Moq;
-using Restaurants.Application.Users.Context;
-using Restaurants.Domain.Constants;
+using System.Security.Claims;
 
 namespace Restaurants.Application.Tests.Users;
 

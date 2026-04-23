@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Infrastructure.Authorization.Factory;
-using Restaurants.Infrastructure.Authorization.Policies.Requirements.Handlers;
 using Restaurants.Infrastructure.Authorization.Policies.Requirements;
+using Restaurants.Infrastructure.Authorization.Policies.Requirements.Handlers;
 using Restaurants.Infrastructure.Authorization.Services;
 using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;

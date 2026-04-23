@@ -5,5 +5,5 @@ global using Restaurants.API.Middlewares;
 global using Restaurants.Application.Dtos.Dishes;
 global using Restaurants.Application.Dtos.Restaurants;
 global using Restaurants.Domain.Constants;
-global using Restaurants.Infrastructure.Auth.Policies;
+global using Restaurants.Infrastructure.Authorization.Policies;
 global using Serilog;

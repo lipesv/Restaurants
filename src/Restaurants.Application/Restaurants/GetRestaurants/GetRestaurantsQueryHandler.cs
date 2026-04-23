@@ -1,6 +1,6 @@
 ﻿using Restaurants.Application.Restaurants.GetRestaurants;
 
-namespace Restaurants.Application.Restaurants.GetAllRestaurants;
+namespace Restaurants.Application.Restaurants.GetRestaurants;
 
 public class GetRestaurantsQueryHandler(ILogger<GetRestaurantsQueryHandler> logger,
                                         IMapper mapper,

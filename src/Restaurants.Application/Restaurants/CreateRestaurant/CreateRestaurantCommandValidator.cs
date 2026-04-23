@@ -31,8 +31,8 @@ public class CreateRestaurantCommandValidator : AbstractValidator<CreateRestaura
             .WithMessage("Please provide a valid contact number (XXX) XXX-XXXX.");
 
         RuleFor(x => x.PostalCode)
-            .Matches(@"^[0-9]{5}(?:-[0-9]{4})?$")
-            .When(x => !string.IsNullOrEmpty(x.PostalCode))
-            .WithMessage("Please provide a valid postal code XXXXX-XXXX.");
+            .Matches(@"^\d{5}(-\d{4})?$")
+            .When(x => !string.IsNullOrWhiteSpace(x.PostalCode))
+            .WithMessage("Please provide a valid US ZIP code (XXXXX or XXXXX-XXXX).");
     }
 }

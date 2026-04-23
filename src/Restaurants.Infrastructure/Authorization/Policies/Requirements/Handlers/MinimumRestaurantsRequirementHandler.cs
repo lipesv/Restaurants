@@ -1,11 +1,11 @@
 namespace Restaurants.Infrastructure.Authorization.Policies.Requirements.Handlers;
 
-public class MinimumRestaurantsRequirementHandler(ILogger<MinimumRestaurantsRequirementHandler> logger,
-                                                  IRestaurantsRepository restaurantsRepository,
-                                                  IUserContext userContext) : AuthorizationHandler<MinimumRestaurantsRequirement>
+internal class MinimumRestaurantsRequirementHandler(ILogger<MinimumRestaurantsRequirementHandler> logger,
+                                                    IRestaurantsRepository restaurantsRepository,
+                                                    IUserContext userContext) : AuthorizationHandler<MinimumRestaurantsRequirement>
 {
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                        MinimumRestaurantsRequirement requirement)
+                                                         MinimumRestaurantsRequirement requirement)
     {
 
         var currentUser = userContext.GetCurrentUser();

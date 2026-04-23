@@ -1,1 +1,11 @@
+global using AutoMapper;
+global using FluentAssertions;
+global using Microsoft.Extensions.Logging;
+global using Moq;
+global using Restaurants.Application.Restaurants.CreateRestaurant;
+global using Restaurants.Application.Restaurants.UpdateRestaurant;
+global using Restaurants.Application.Users.Context;
+global using Restaurants.Domain.Constants;
+global using Restaurants.Domain.Entities;
+global using Restaurants.Domain.Repositories;
 global using Xunit;

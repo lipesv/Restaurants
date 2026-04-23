@@ -1,6 +1,6 @@
 namespace Restaurants.Application.Restaurants.UpdateRestaurant;
 
-public class UpdateRestaurantCommandHandler(ILogger<CreateRestaurantCommandHandler> logger,
+public class UpdateRestaurantCommandHandler(ILogger<UpdateRestaurantCommandHandler> logger,
                                             IRestaurantsRepository restaurantsRepository,
                                             IMapper mapper,
                                             IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<UpdateRestaurantCommand>

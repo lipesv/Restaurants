@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -44,7 +45,7 @@ public class MinimumRestaurantsRequirementTests
                                                                restaurantRepositoryMock.Object,
                                                                userContextMock.Object);
 
-        var context = new AuthorizationHandlerContext([requirement], null, null);
+        var context = new AuthorizationHandlerContext([requirement], new ClaimsPrincipal(), null);
 
         // act
         await handler.HandleAsync(context);
@@ -81,7 +82,7 @@ public class MinimumRestaurantsRequirementTests
                                                                restaurantRepositoryMock.Object,
                                                                userContextMock.Object);
 
-        var context = new AuthorizationHandlerContext([requirement], null, null);
+        var context = new AuthorizationHandlerContext([requirement], new System.Security.Claims.ClaimsPrincipal(), null);
 
         // act
         await handler.HandleAsync(context);

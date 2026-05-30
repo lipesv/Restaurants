@@ -2,63 +2,127 @@
 
 namespace Restaurants.Infrastructure.Seeders;
 
-internal class RestaurantSeeder(RestaurantsDbContext dbContext) : IRestaurantSeeder
+internal class DatabaseSeeder(
+    RestaurantsDbContext dbContext,
+    RoleManager<IdentityRole> roleManager,
+    UserManager<User> userManager) : IDatabaseSeeder
 {
-    public async Task Seed()
+    public async Task SeedAsync()
     {
-        if (await dbContext.Database.CanConnectAsync())
+        if (!await dbContext.Database.CanConnectAsync())
         {
-            if (!await dbContext.Restaurants.AnyAsync())
+            return;
+        }
+
+        await SeedRolesAsync();
+
+        var owner = await SeedOwnerUserAsync();
+
+        await SeedRestaurantsAsync(owner.Id);
+    }
+
+    // =========================
+    // ROLES
+    // =========================
+    private async Task SeedRolesAsync()
+    {
+        string[] roles =
+        [
+            UserRoles.User,
+            UserRoles.Owner,
+            UserRoles.Admin
+        ];
+
+        foreach (var role in roles)
+        {
+            if (await roleManager.RoleExistsAsync(role))
             {
-                var restaurants = GetRestaurants();
-                dbContext.Restaurants.AddRange(restaurants);
-                await dbContext.SaveChangesAsync();
+                continue;
             }
 
-            if (!await dbContext.Roles.AnyAsync())
+            var result = await roleManager.CreateAsync(new IdentityRole(role));
+
+            if (!result.Succeeded)
             {
-                var roles = GetRoles();
-                await dbContext.Roles.AddRangeAsync(roles);
-                await dbContext.SaveChangesAsync();
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new InvalidOperationException($"Erro ao criar role '{role}': {errors}");
             }
         }
     }
 
-    private static List<IdentityRole> GetRoles()
+    // =========================
+    // USER OWNER
+    // =========================
+    private async Task<User> SeedOwnerUserAsync()
     {
-        List<IdentityRole> roles =
-        [
-            new IdentityRole
-            {
-                Name = UserRoles.User,
-                NormalizedName = UserRoles.User.ToUpper()
-            },
-            new IdentityRole
-            {
-                Name = UserRoles.Owner,
-                NormalizedName = UserRoles.Owner.ToUpper()
-            },
-            new IdentityRole
-            {
-                Name = UserRoles.Admin,
-                NormalizedName = UserRoles.Admin.ToUpper()
-            }
-        ];
+        const string ownerEmail = "owner@restaurants.example";
+        const string ownerPassword = "Owner123!";
 
-        return roles;
+        var owner = await userManager.FindByEmailAsync(ownerEmail);
+
+        if (owner is null)
+        {
+            owner = new User
+            {
+                UserName = ownerEmail,
+                Email = ownerEmail,
+                EmailConfirmed = true
+            };
+
+            var createResult = await userManager.CreateAsync(owner, ownerPassword);
+
+            if (!createResult.Succeeded)
+            {
+                var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
+                throw new InvalidOperationException(
+                    $"Erro ao criar usuário owner seed: {errors}");
+            }
+        }
+
+        if (!await userManager.IsInRoleAsync(owner, UserRoles.Owner))
+        {
+            var addToRoleResult = await userManager.AddToRoleAsync(owner, UserRoles.Owner);
+
+            if (!addToRoleResult.Succeeded)
+            {
+                var errors = string.Join(", ", addToRoleResult.Errors.Select(e => e.Description));
+                throw new InvalidOperationException(
+                    $"Erro ao associar usuário à role Owner: {errors}");
+            }
+        }
+
+        return owner;
     }
 
-    private static List<Restaurant> GetRestaurants()
+    // =========================
+    // RESTAURANTS
+    // =========================
+    private async Task SeedRestaurantsAsync(string ownerId)
     {
-        List<Restaurant> restaurants =
+        if (await dbContext.Restaurants.AnyAsync())
+        {
+            return;
+        }
+
+        var restaurants = GetRestaurants(ownerId);
+
+        await dbContext.Restaurants.AddRangeAsync(restaurants);
+        await dbContext.SaveChangesAsync();
+    }
+
+    private static List<Restaurant> GetRestaurants(string ownerId)
+    {
+        return
         [
-            new() {
+            new()
+            {
                 Name = "Pasta Palace",
                 Description = "Handmade pasta and sauces inspired by traditional Italian recipes.",
                 Category = "Italian",
                 HasDelivery = true,
                 ContactEmail = "contact@pastapalace.example",
                 ContactNumber = "+1-555-0101",
+                OwnerId = ownerId,
                 Address = new()
                 {
                     City = "Springfield",
@@ -72,132 +136,26 @@ internal class RestaurantSeeder(RestaurantsDbContext dbContext) : IRestaurantSee
                         Name = "Tagliatelle Bolognese",
                         Description = "Slow-cooked beef ragù with fresh tagliatelle.",
                         Price = 14.50m
-                    },
-                    new()
-                    {
-                        Name = "Cacio e Pepe",
-                        Description = "Pecorino, black pepper and perfectly al dente spaghetti.",
-                        Price = 12.00m
-                    },
-                    new()
-                    {
-                        Name = "Tiramisu",
-                        Description = "Classic espresso-soaked ladyfingers with mascarpone.",
-                        Price = 7.00m
                     }
                 ]
             },
 
-            new() {
+            new()
+            {
                 Name = "Sushi Central",
-                Description = "Modern sushi bar using sustainably sourced fish and seasonal produce.",
+                Description = "Modern sushi bar using sustainably sourced fish.",
                 Category = "Japanese",
                 HasDelivery = false,
                 ContactEmail = "hello@sushicentral.example",
                 ContactNumber = "+1-555-0202",
+                OwnerId = ownerId,
                 Address = new()
                 {
                     City = "Riverton",
                     Street = "88 Harbor Road",
                     PostalCode = "67890"
-                },
-                Dishes =
-                [
-                    new()
-                    {
-                        Name = "Salmon Nigiri (2 pcs)",
-                        Description = "Fresh Atlantic salmon over vinegared rice.",
-                        Price = 6.50m
-                    },
-                    new()
-                    {
-                        Name = "Spicy Tuna Roll",
-                        Description = "Tuna with house spicy mayo and cucumber.",
-                        Price = 9.00m
-                    },
-                    new()
-                    {
-                        Name = "Miso Soup",
-                        Description = "Traditional miso with wakame and tofu.",
-                        Price = 3.50m
-                    }
-                ]
-            },
-
-            new() {
-                Name = "Burger Barn",
-                Description = "Classic and gourmet burgers, hand-cut fries and craft sodas.",
-                Category = "American",
-                HasDelivery = true,
-                ContactEmail = "order@burgerbarn.example",
-                ContactNumber = "+1-555-0303",
-                Address = new()
-                {
-                    City = "Lakeside",
-                    Street = "450 Main Street",
-                    PostalCode = "24680"
-                },
-                Dishes =
-                [
-                    new()
-                    {
-                        Name = "Classic Cheeseburger",
-                        Description = "Grilled patty, cheddar, lettuce, tomato, pickles.",
-                        Price = 10.00m
-                    },
-                    new()
-
-                    {
-                        Name = "BBQ Bacon Burger",
-                        Description = "Smoky BBQ sauce, bacon, crispy onions.",
-                        Price = 12.50m
-                    },
-                    new()
-                    {
-                        Name = "Sweet Potato Fries",
-                        Description = "Crispy sweet potato fries with herb salt.",
-                        Price = 4.50m
-                    }
-                ]
-            },
-
-            new() {
-                Name = "Green Garden",
-                Description = "Plant-forward dishes focusing on local and seasonal produce.",
-                Category = "Vegetarian",
-                HasDelivery = false,
-                ContactEmail = "info@greengarden.example",
-                ContactNumber = "+1-555-0404",
-                Address = new()
-                {
-                    City = "Meadowbrook",
-                    Street = "221 Garden Lane",
-                    PostalCode = "11223"
-                },
-                Dishes =
-                [
-                    new()
-                    {
-                        Name = "Roasted Beet Salad",
-                        Description = "Mixed greens, roasted beets, citrus vinaigrette.",
-                        Price = 11.00m
-                    },
-                    new()
-                    {
-                        Name = "Mushroom Risotto",
-                        Description = "Creamy arborio with wild mushrooms and herbs.",
-                        Price = 13.75m
-                    },
-                    new()
-                    {
-                        Name = "Lemon Tahini Tart",
-                        Description = "Zesty citrus tart with tahini crust.",
-                        Price = 6.50m
-                    }
-                ]
+                }
             }
         ];
-
-        return restaurants;
     }
 }

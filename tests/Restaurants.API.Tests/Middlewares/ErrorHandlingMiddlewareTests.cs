@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -38,7 +37,7 @@ public class ErrorHandlingMiddlewareTests
         var exception = new NotFoundException(nameof(Restaurant), "1");
 
         // Act
-        await middleware.InvokeAsync(context, async (ctx) => throw exception);
+        await middleware.InvokeAsync(context, _ => Task.FromException(exception));
 
         // Assert
         context.Response.StatusCode.Should().Be(404);
@@ -55,7 +54,7 @@ public class ErrorHandlingMiddlewareTests
         var exception = new ForbiddenException();
 
         // Act
-        await middleware.InvokeAsync(context, async (ctx) => throw exception);
+        await middleware.InvokeAsync(context, _ => Task.FromException(exception));
 
         // Assert
         context.Response.StatusCode.Should().Be(403);
@@ -72,7 +71,7 @@ public class ErrorHandlingMiddlewareTests
         var exception = new Exception();
 
         // Act
-        await middleware.InvokeAsync(context, async (ctx) => throw exception);
+        await middleware.InvokeAsync(context, _ => Task.FromException(exception));
 
         // Assert
         context.Response.StatusCode.Should().Be(500);

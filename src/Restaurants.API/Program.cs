@@ -12,10 +12,11 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-var scope = app.Services.CreateScope();
-var seeder = scope.ServiceProvider.GetRequiredService<IRestaurantSeeder>();
-
-await seeder.Seed();
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<IDatabaseSeeder>();
+    await seeder.SeedAsync();
+}
 
 // Configure the HTTP request pipeline.
 
@@ -43,3 +44,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

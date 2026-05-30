@@ -2,10 +2,8 @@
 
 namespace Restaurants.Infrastructure.Migrations
 {
-    /// <inheritdoc />
     public partial class RestaurantOwnerAdded : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
@@ -14,13 +12,6 @@ namespace Restaurants.Infrastructure.Migrations
                 type: "nvarchar(450)",
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.Sql(@"UPDATE Restaurants
-                                   SET OwnerId = (SELECT UserId
-                                                  FROM AspNetUserRoles
-                                                  WHERE RoleId IN (SELECT Id
-                                                                   FROM AspNetRoles
-                                                                   WHERE NormalizedName = UPPER('owner')))");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Restaurants_OwnerId",
@@ -36,7 +27,6 @@ namespace Restaurants.Infrastructure.Migrations
                 onDelete: ReferentialAction.Cascade);
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(

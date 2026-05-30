@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Restaurants.Application.Tests.Users;
 
@@ -46,9 +46,8 @@ public class UserContextTests
     {
         // Arrange
         var httpContextAccessorMoq = new Mock<IHttpContextAccessor>();
-        
         httpContextAccessorMoq.Setup(x => x.HttpContext)
-                              .Returns((HttpContext)null);
+                              .Returns((HttpContext)null!);
 
         var userContext = new UserContext(httpContextAccessorMoq.Object);
 
@@ -59,6 +58,5 @@ public class UserContextTests
         act.Should()
            .Throw<InvalidOperationException>()
            .WithMessage("User context is not present.");
-        
     }
 }

@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
                 .AddClaimsPrincipalFactory<RestauransUserClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<RestaurantsDbContext>();
 
-        services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
+        services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
         services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
         services.AddScoped<IDishesRepository, DishesRepository>();
 
@@ -37,14 +37,8 @@ public static class ServiceCollectionExtensions
                                          "German",
                                          "Polish");
                 })
-                .AddPolicy(PolicyNames.AtLeast20, builder =>
-                {
-                    builder.AddRequirements(new MinimumAgeRequirement(20));
-                })
-                .AddPolicy(PolicyNames.MultiOwnerPolicy, builder =>
-                {
-                    builder.AddRequirements(new MinimumRestaurantsRequirement(2));
-                });
+                .AddPolicy(PolicyNames.AtLeast20, builder => builder.AddRequirements(new MinimumAgeRequirement(20)))
+                .AddPolicy(PolicyNames.MultiOwnerPolicy, builder => builder.AddRequirements(new MinimumRestaurantsRequirement(2)));
 
         services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
         services.AddScoped<IAuthorizationHandler, MinimumRestaurantsRequirementHandler>();

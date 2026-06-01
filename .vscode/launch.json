@@ -6,10 +6,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Restaurants.API/bin/Debug/net8.0/Restaurants.API.dll",
+            "program": "${workspaceFolder}/src/Restaurants.API/bin/Debug/net8.0/Restaurants.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Restaurants.API",
-            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/src/Restaurants.API",
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"

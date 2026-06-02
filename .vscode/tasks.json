@@ -12,7 +12,7 @@
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
             "dependsOn": [
-                "start-environment"
+                "local-environment-start"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -111,7 +111,7 @@
             }
         },
         {
-            "label": "start-environment",
+            "label": "local-environment-start",
             "type": "shell",
             "command": "./scripts/environment/dev.sh",
             "presentation": {
@@ -120,13 +120,46 @@
             }
         },
         {
-            "label": "clean-environment",
+            "label": "local-environment-cleanup",
             "type": "shell",
             "command": "docker compose down -v",
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
             },
+            "problemMatcher": []
+        },
+        {
+            "label": "clean-publish-folder",
+            "type": "shell",
+            "command": "rm -rf \"${workspaceFolder}/artifacts/azure/Restaurants.API\" && mkdir -p \"${workspaceFolder}/artifacts/azure/Restaurants.API\"",
+            "problemMatcher": []
+        },
+        {
+            "label": "publish-api-azure",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/Restaurants.API/Restaurants.API.csproj",
+                "-c",
+                "Release",
+                "-o",
+                "${workspaceFolder}/artifacts/azure/Restaurants.API"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "prepare-azure-deploy",
+            "dependsOn": [
+                "clean-publish-folder",
+                "publish-api-azure"
+            ],
+            "dependsOrder": "sequence",
             "problemMatcher": []
         }
     ]

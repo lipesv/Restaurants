@@ -1,8 +1,5 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Moq;
 using Restaurants.API.Middlewares;
-using Restaurants.Domain.Entities;
 using Restaurants.Domain.Exceptions;
 
 namespace Restaurants.API.Tests.Middlewares;

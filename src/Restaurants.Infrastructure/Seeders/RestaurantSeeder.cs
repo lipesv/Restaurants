@@ -2,10 +2,9 @@
 
 namespace Restaurants.Infrastructure.Seeders;
 
-internal class DatabaseSeeder(
-    RestaurantsDbContext dbContext,
-    RoleManager<IdentityRole> roleManager,
-    UserManager<User> userManager) : IDatabaseSeeder
+internal class DatabaseSeeder(RestaurantsDbContext dbContext,
+                              RoleManager<IdentityRole> roleManager,
+                              UserManager<User> userManager) : IDatabaseSeeder
 {
     public async Task SeedAsync()
     {
@@ -18,12 +17,13 @@ internal class DatabaseSeeder(
 
         var owner = await SeedOwnerUserAsync();
 
+        await SeedAdminUserAsync();
+
+        await SeedDefaultUserAsync();
+
         await SeedRestaurantsAsync(owner.Id);
     }
 
-    // =========================
-    // ROLES
-    // =========================
     private async Task SeedRolesAsync()
     {
         string[] roles =
@@ -36,9 +36,7 @@ internal class DatabaseSeeder(
         foreach (var role in roles)
         {
             if (await roleManager.RoleExistsAsync(role))
-            {
                 continue;
-            }
 
             var result = await roleManager.CreateAsync(new IdentityRole(role));
 
@@ -50,59 +48,74 @@ internal class DatabaseSeeder(
         }
     }
 
-    // =========================
-    // USER OWNER
-    // =========================
-    private async Task<User> SeedOwnerUserAsync()
+    private Task<User> SeedOwnerUserAsync()
     {
-        const string ownerEmail = "owner@restaurants.example";
-        const string ownerPassword = "Owner123!";
+        return EnsureUserWithRole(
+            email: "owner@restaurants.example",
+            password: "Owner123!",
+            role: UserRoles.Owner);
+    }
 
-        var owner = await userManager.FindByEmailAsync(ownerEmail);
+    private Task<User> SeedAdminUserAsync()
+    {
+        return EnsureUserWithRole(
+            email: "admin@restaurants.example",
+            password: "Admin123!",
+            role: UserRoles.Admin);
+    }
 
-        if (owner is null)
+    private Task<User> SeedDefaultUserAsync()
+    {
+        return EnsureUserWithRole(
+            email: "user@restaurants.example",
+            password: "User123!",
+            role: UserRoles.User);
+    }
+
+    private async Task<User> EnsureUserWithRole(string email,
+                                                string password,
+                                                string role)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+
+        if (user is null)
         {
-            owner = new User
+            user = new User
             {
-                UserName = ownerEmail,
-                Email = ownerEmail,
+                UserName = email,
+                Email = email,
                 EmailConfirmed = true
             };
 
-            var createResult = await userManager.CreateAsync(owner, ownerPassword);
+            var createResult = await userManager.CreateAsync(user, password);
 
             if (!createResult.Succeeded)
             {
                 var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
                 throw new InvalidOperationException(
-                    $"Erro ao criar usuário owner seed: {errors}");
+                    $"Erro ao criar usuário '{email}': {errors}");
             }
         }
 
-        if (!await userManager.IsInRoleAsync(owner, UserRoles.Owner))
+        if (!await userManager.IsInRoleAsync(user, role))
         {
-            var addToRoleResult = await userManager.AddToRoleAsync(owner, UserRoles.Owner);
+            var roleResult = await userManager.AddToRoleAsync(user, role);
 
-            if (!addToRoleResult.Succeeded)
+            if (!roleResult.Succeeded)
             {
-                var errors = string.Join(", ", addToRoleResult.Errors.Select(e => e.Description));
+                var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
                 throw new InvalidOperationException(
-                    $"Erro ao associar usuário à role Owner: {errors}");
+                    $"Erro ao associar '{email}' à role '{role}': {errors}");
             }
         }
 
-        return owner;
+        return user;
     }
 
-    // =========================
-    // RESTAURANTS
-    // =========================
     private async Task SeedRestaurantsAsync(string ownerId)
     {
         if (await dbContext.Restaurants.AnyAsync())
-        {
             return;
-        }
 
         var restaurants = GetRestaurants(ownerId);
 
@@ -128,16 +141,7 @@ internal class DatabaseSeeder(
                     City = "Springfield",
                     Street = "12 Olive Way",
                     PostalCode = "12345"
-                },
-                Dishes =
-                [
-                    new()
-                    {
-                        Name = "Tagliatelle Bolognese",
-                        Description = "Slow-cooked beef ragù with fresh tagliatelle.",
-                        Price = 14.50m
-                    }
-                ]
+                }
             },
 
             new()

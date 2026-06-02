@@ -1,12 +1,12 @@
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Restaurants.API.Tests.Handlers;
 using Restaurants.Application.Dtos.Restaurants;
 using Restaurants.Domain.Repositories;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace Restaurants.API.Tests.Controllers;
 

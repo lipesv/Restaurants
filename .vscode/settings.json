@@ -94,5 +94,7 @@
                 }
             }
         ]
-    }
+    },
+    "appService.defaultWebAppToDeploy": "/subscriptions/917ef8fb-4fe2-42b3-b8a9-21bc769395ff/resourceGroups/rg-restaurants-dev/providers/Microsoft.Web/sites/restaurants-api-dev",
+    "appService.deploySubpath": "artifacts/azure/Restaurants.API"
 }

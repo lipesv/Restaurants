@@ -8,6 +8,11 @@ internal class DatabaseSeeder(RestaurantsDbContext dbContext,
 {
     public async Task SeedAsync()
     {
+        if (dbContext.Database.GetPendingMigrations().Any())
+        {
+            await dbContext.Database.MigrateAsync();
+        }
+
         if (!await dbContext.Database.CanConnectAsync())
         {
             return;

@@ -4,7 +4,7 @@
             "interface": {
                 "foreground": "#b8ce82"
             },
-            "namespace": "#ccc",
+            "namespace": "#cccccc",
             "enum": "#b8ce82",
             "struct": {
                 "foreground": "#86C691"

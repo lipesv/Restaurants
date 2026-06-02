@@ -1,11 +1,18 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 
-namespace Restaurants.API.Tests;
+namespace Restaurants.API.Tests.Helper;
 
+/// <summary>
+/// A fake policy evaluator for unit testing purposes.
+/// </summary>
 public class FakePolicyEvaluator : IPolicyEvaluator
 {
+    /// <summary>
+    /// Authenticates the user asynchronously.
+    /// </summary>
+    /// <param name="policy">The authorization policy.</param>
+    /// <param name="context">The HTTP context.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public Task<AuthenticateResult> AuthenticateAsync(AuthorizationPolicy policy,
                                                       HttpContext context)
     {
@@ -24,6 +31,14 @@ public class FakePolicyEvaluator : IPolicyEvaluator
         return Task.FromResult(result);
     }
 
+    /// <summary>
+    /// Authorizes the user asynchronously.
+    /// </summary>
+    /// <param name="policy">The authorization policy.</param>
+    /// <param name="authenticationResult">The result of the authentication process.</param>
+    /// <param name="context">The HTTP context.</param>
+    /// <param name="resource">The resource being accessed.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public Task<PolicyAuthorizationResult> AuthorizeAsync(AuthorizationPolicy policy,
                                                           AuthenticateResult authenticationResult, HttpContext context,
                                                           object? resource)

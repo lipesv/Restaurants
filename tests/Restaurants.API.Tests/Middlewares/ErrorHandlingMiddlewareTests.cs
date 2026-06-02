@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Logging;
 using Restaurants.API.Middlewares;
 using Restaurants.Domain.Exceptions;
 

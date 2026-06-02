@@ -1,9 +1,11 @@
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Restaurants.Application.Dtos.Restaurants;
 using Restaurants.Domain.Repositories;
 
 namespace Restaurants.API.Tests.Controllers;
@@ -81,6 +83,42 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
         // Assert
         response.StatusCode.Should()
                            .Be(System.Net.HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task GetRestaurantById_WhenUserIsAuthenticated_ShouldReturn200_ForExistingRestaurant()
+    {
+        // Arrange
+        const int id = 1;
+
+        var restaurant = new Restaurant
+        {
+            Id = id,
+            Name = "Test Restaurant",
+            Description = "A test restaurant"
+        };
+
+        _restaurantRepositoryMock.Setup(x => x.GetByIdAsync(id))
+                                 .ReturnsAsync(restaurant);
+
+        var client = CreateAuthenticatedClient("German");
+
+        // Act
+        var response = await client.GetAsync($"/api/restaurants/{id}");
+        var restaurantDto = await response.Content.ReadFromJsonAsync<RestaurantDto>();
+
+        // Assert
+        response.StatusCode.Should()
+                           .Be(System.Net.HttpStatusCode.OK);
+
+        restaurantDto.Should()
+                     .NotBeNull();
+
+        restaurantDto.Name.Should()
+                          .Be(restaurant.Name);
+
+        restaurantDto.Description.Should()
+                                 .Be(restaurant.Description);
     }
 
     [Fact]

@@ -62,11 +62,11 @@ echo -e "${GREEN}===> SQL Server pronto!${NC}"
 # ==============================
 # MIGRATIONS (IDEMPOTENTE)
 # ==============================
-echo -e "${GREEN}===> Aplicando migrations (se necessário)...${NC}"
+# echo -e "${GREEN}===> Aplicando migrations (se necessário)...${NC}"
 
-dotnet ef database update \
-  --project "$INFRA_PROJECT" \
-  --startup-project "$API_PROJECT"
+# dotnet ef database update \
+#   --project "$INFRA_PROJECT" \
+#   --startup-project "$API_PROJECT"
 
-echo -e "${GREEN}===> Banco atualizado com sucesso!${NC}"
+# echo -e "${GREEN}===> Banco atualizado com sucesso!${NC}"
 echo -e "${GREEN}===> Ambiente pronto 🚀${NC}"

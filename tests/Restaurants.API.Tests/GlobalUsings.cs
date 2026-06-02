@@ -1,6 +1,9 @@
+global using System.Security.Claims;
 global using FluentAssertions;
+global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authorization.Policy;
 global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.Logging;
 global using Moq;
 global using Restaurants.Domain.Entities;
 global using Xunit;

@@ -15,7 +15,7 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ConnectionStrings__DefaultConnection": "Server=localhost;Database=RestaurantsDb;User Id=sa;Password=YourStrong@Pass123!;TrustServerCertificate=True;"
+                // "ConnectionStrings__DefaultConnection": "Server=localhost;Database=RestaurantsDb;User Id=sa;Password=YourStrong@Pass123!;TrustServerCertificate=True;"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

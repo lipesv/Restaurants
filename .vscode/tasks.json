@@ -11,9 +11,9 @@
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
-            "dependsOn": [
-                "local-environment-start"
-            ],
+            // "dependsOn": [
+            //     "local-environment-start"
+            // ],
             "problemMatcher": "$msCompile"
         },
         {

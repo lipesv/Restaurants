@@ -152,7 +152,7 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
         // Arrange
         const int id = 1;
 
-        var client = CreateAnonymousClient();
+        var client = CreateAuthenticatedClient();
 
         // Act
         var response = await client.GetAsync($"/api/restaurants/{id}");

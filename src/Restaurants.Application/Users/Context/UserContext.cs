@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Http;
 using System.Globalization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace Restaurants.Application.Users.Context;
 
@@ -11,15 +11,15 @@ public class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContex
         var userContext = (httpContextAccessor?.HttpContext?.User)
                           ?? throw new InvalidOperationException("User context is not present.");
 
-        if (userContext.Identity == null || !userContext.Identity.IsAuthenticated)
+        if (userContext.Identity?.IsAuthenticated is not true)
             return null;
 
         var userId = userContext.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         var email = userContext.FindFirst(c => c.Type == ClaimTypes.Email)?.Value;
         var roles = userContext.FindAll(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
-        
+
         var nationality = userContext.FindFirst(c => c.Type == "Nationality")?.Value;
-        
+
         var dateOfBirthString = userContext.FindFirst(c => c.Type == "DateOfBirth")?.Value;
         var dateOfBirth = dateOfBirthString == null ? (DateOnly?)null : DateOnly.ParseExact(dateOfBirthString,
                                                                                             "yyyy-MM-dd",

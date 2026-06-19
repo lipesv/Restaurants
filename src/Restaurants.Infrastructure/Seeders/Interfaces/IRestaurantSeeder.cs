@@ -1,7 +1,6 @@
-﻿namespace Restaurants.Infrastructure.Seeders.Interfaces
+﻿namespace Restaurants.Infrastructure.Seeders.Interfaces;
+
+public interface IDatabaseSeeder
 {
-    public interface IRestaurantSeeder
-    {
-        Task Seed();
-    }
+    Task SeedAsync();
 }

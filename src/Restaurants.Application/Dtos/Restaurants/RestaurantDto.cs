@@ -7,6 +7,7 @@ public record RestaurantDto(int Id, bool HasDelivery, string? City, string? Stre
     public string Name { get; set; } = default!;
     public string Description { get; set; } = default!;
     public string Category { get; set; } = default!;
+    public string? LogoSasUrl { get; set; }
 
     public List<DishDto> Dishes { get; set; } = [];
 }

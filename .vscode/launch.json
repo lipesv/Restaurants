@@ -6,17 +6,17 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Restaurants.API/bin/Debug/net8.0/Restaurants.API.dll",
+            "program": "${workspaceFolder}/src/Restaurants.API/bin/Debug/net8.0/Restaurants.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Restaurants.API",
-            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/src/Restaurants.API",
             "serverReadyAction": {
                 "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/swagger"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development",
-                "ConnectionStrings__DefaultConnection": "Server=localhost;Database=RestaurantsDb;User Id=sa;Password=YourStrong@Pass123!;TrustServerCertificate=True;"
+                // "ConnectionStrings__DefaultConnection": "Server=localhost;Database=RestaurantsDb;User Id=sa;Password=YourStrong@Pass123!;TrustServerCertificate=True;"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"

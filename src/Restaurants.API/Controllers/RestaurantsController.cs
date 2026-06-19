@@ -21,7 +21,7 @@ public class RestaurantsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize(Policy = PolicyNames.HasNationality)]
+    // [Authorize(Policy = PolicyNames.HasNationality)]
     public async Task<ActionResult<RestaurantDto?>> GetById([FromRoute] int id)
     {
         var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
@@ -36,15 +36,20 @@ public class RestaurantsController(IMediator mediator) : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
+
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromRoute] int id, UpdateRestaurantCommand command)
+    public async Task<IActionResult> Update(
+        [FromRoute] int id,
+        [FromBody] UpdateRestaurantCommand command)
     {
-        command.Id = id;
-        await mediator.Send(command);
+        var updateCommand = command with { Id = id };
+
+        await mediator.Send(updateCommand);
         return NoContent();
     }
+
 
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -54,4 +59,22 @@ public class RestaurantsController(IMediator mediator) : ControllerBase
         await mediator.Send(new DeleteRestaurantCommand(id));
         return NoContent();
     }
+
+    [HttpPost("{id}/logo")]
+    public async Task<IActionResult> UploadLogo([FromRoute] int id, IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+        {
+            return BadRequest("No file uploaded.");
+        }
+
+        await using var stream = file.OpenReadStream();
+
+        var command = new UploadRestaurantLogoCommand(id, $"{id}-{file.FileName}", stream);
+
+        await mediator.Send(command);
+
+        return NoContent();
+    }
+
 }

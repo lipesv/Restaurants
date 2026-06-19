@@ -1,11 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Restaurants.Domain.Services.Storage;
 using Restaurants.Infrastructure.Authorization.Factory;
-using Restaurants.Infrastructure.Authorization.Policies.Requirements.Handlers;
 using Restaurants.Infrastructure.Authorization.Policies.Requirements;
+using Restaurants.Infrastructure.Authorization.Policies.Requirements.Handlers;
 using Restaurants.Infrastructure.Authorization.Services;
+using Restaurants.Infrastructure.Configuration;
 using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;
+using Restaurants.Infrastructure.Services.Storage;
 
 namespace Restaurants.Infrastructure.Extensions;
 
@@ -26,7 +29,7 @@ public static class ServiceCollectionExtensions
                 .AddClaimsPrincipalFactory<RestauransUserClaimsPrincipalFactory>()
                 .AddEntityFrameworkStores<RestaurantsDbContext>();
 
-        services.AddScoped<IRestaurantSeeder, RestaurantSeeder>();
+        services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
         services.AddScoped<IRestaurantsRepository, RestaurantsRepository>();
         services.AddScoped<IDishesRepository, DishesRepository>();
 
@@ -37,18 +40,15 @@ public static class ServiceCollectionExtensions
                                          "German",
                                          "Polish");
                 })
-                .AddPolicy(PolicyNames.AtLeast20, builder =>
-                {
-                    builder.AddRequirements(new MinimumAgeRequirement(20));
-                })
-                .AddPolicy(PolicyNames.MultiOwnerPolicy, builder =>
-                {
-                    builder.AddRequirements(new MinimumRestaurantsRequirement(2));
-                });
+                .AddPolicy(PolicyNames.AtLeast20, builder => builder.AddRequirements(new MinimumAgeRequirement(20)))
+                .AddPolicy(PolicyNames.MultiOwnerPolicy, builder => builder.AddRequirements(new MinimumRestaurantsRequirement(2)));
 
         services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
         services.AddScoped<IAuthorizationHandler, MinimumRestaurantsRequirementHandler>();
 
         services.AddScoped<IRestaurantAuthorizationService, RestaurantAuthorizationService>();
+
+        services.Configure<BlobStorageSettings>(configuration.GetSection("BlobStorage"));
+        services.AddScoped<IBlobStorageService, BlobStorageService>();
     }
 }

@@ -13,11 +13,8 @@ public class UpdateUserDetailsCommandHandler(ILogger<UpdateUserDetailsCommand> l
                               user!.Id,
                               request);
 
-        var dbUser = await userStore.FindByIdAsync(user!.Id, cancellationToken);
-
-        if (dbUser is null)
-            throw new NotFoundException(nameof(User), user!.Id);
-
+        var dbUser = await userStore.FindByIdAsync(user!.Id, cancellationToken)
+                     ?? throw new NotFoundException(nameof(User), user!.Id);
         dbUser.Nationality = request.Nationality;
         dbUser.DateOfBirth = request.DateOfBirth;
 

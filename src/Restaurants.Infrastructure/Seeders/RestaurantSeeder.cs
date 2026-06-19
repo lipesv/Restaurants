@@ -2,202 +2,169 @@
 
 namespace Restaurants.Infrastructure.Seeders;
 
-internal class RestaurantSeeder(RestaurantsDbContext dbContext) : IRestaurantSeeder
+internal class DatabaseSeeder(RestaurantsDbContext dbContext,
+                              RoleManager<IdentityRole> roleManager,
+                              UserManager<User> userManager) : IDatabaseSeeder
 {
-    public async Task Seed()
+    public async Task SeedAsync()
     {
-        if (await dbContext.Database.CanConnectAsync())
+        if (dbContext.Database.GetPendingMigrations().Any())
         {
-            if (!await dbContext.Restaurants.AnyAsync())
-            {
-                var restaurants = GetRestaurants();
-                dbContext.Restaurants.AddRange(restaurants);
-                await dbContext.SaveChangesAsync();
-            }
+            await dbContext.Database.MigrateAsync();
+        }
 
-            if (!await dbContext.Roles.AnyAsync())
+        if (!await dbContext.Database.CanConnectAsync())
+        {
+            return;
+        }
+
+        await SeedRolesAsync();
+
+        var owner = await SeedOwnerUserAsync();
+
+        await SeedAdminUserAsync();
+
+        await SeedDefaultUserAsync();
+
+        await SeedRestaurantsAsync(owner.Id);
+    }
+
+    private async Task SeedRolesAsync()
+    {
+        string[] roles =
+        [
+            UserRoles.User,
+            UserRoles.Owner,
+            UserRoles.Admin
+        ];
+
+        foreach (var role in roles)
+        {
+            if (await roleManager.RoleExistsAsync(role))
+                continue;
+
+            var result = await roleManager.CreateAsync(new IdentityRole(role));
+
+            if (!result.Succeeded)
             {
-                var roles = GetRoles();
-                await dbContext.Roles.AddRangeAsync(roles);
-                await dbContext.SaveChangesAsync();
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                throw new InvalidOperationException($"Erro ao criar role '{role}': {errors}");
             }
         }
     }
 
-    private static List<IdentityRole> GetRoles()
+    private Task<User> SeedOwnerUserAsync()
     {
-        List<IdentityRole> roles =
-        [
-            new IdentityRole
-            {
-                Name = UserRoles.User,
-                NormalizedName = UserRoles.User.ToUpper()
-            },
-            new IdentityRole
-            {
-                Name = UserRoles.Owner,
-                NormalizedName = UserRoles.Owner.ToUpper()
-            },
-            new IdentityRole
-            {
-                Name = UserRoles.Admin,
-                NormalizedName = UserRoles.Admin.ToUpper()
-            }
-        ];
-
-        return roles;
+        return EnsureUserWithRole(
+            email: "owner@restaurants.example",
+            password: "Owner123!",
+            role: UserRoles.Owner);
     }
 
-    private static List<Restaurant> GetRestaurants()
+    private Task<User> SeedAdminUserAsync()
     {
-        List<Restaurant> restaurants =
+        return EnsureUserWithRole(
+            email: "admin@restaurants.example",
+            password: "Admin123!",
+            role: UserRoles.Admin);
+    }
+
+    private Task<User> SeedDefaultUserAsync()
+    {
+        return EnsureUserWithRole(
+            email: "user@restaurants.example",
+            password: "User123!",
+            role: UserRoles.User);
+    }
+
+    private async Task<User> EnsureUserWithRole(string email,
+                                                string password,
+                                                string role)
+    {
+        var user = await userManager.FindByEmailAsync(email);
+
+        if (user is null)
+        {
+            user = new User
+            {
+                UserName = email,
+                Email = email,
+                EmailConfirmed = true
+            };
+
+            var createResult = await userManager.CreateAsync(user, password);
+
+            if (!createResult.Succeeded)
+            {
+                var errors = string.Join(", ", createResult.Errors.Select(e => e.Description));
+                throw new InvalidOperationException(
+                    $"Erro ao criar usuário '{email}': {errors}");
+            }
+        }
+
+        if (!await userManager.IsInRoleAsync(user, role))
+        {
+            var roleResult = await userManager.AddToRoleAsync(user, role);
+
+            if (!roleResult.Succeeded)
+            {
+                var errors = string.Join(", ", roleResult.Errors.Select(e => e.Description));
+                throw new InvalidOperationException(
+                    $"Erro ao associar '{email}' à role '{role}': {errors}");
+            }
+        }
+
+        return user;
+    }
+
+    private async Task SeedRestaurantsAsync(string ownerId)
+    {
+        if (await dbContext.Restaurants.AnyAsync())
+            return;
+
+        var restaurants = GetRestaurants(ownerId);
+
+        await dbContext.Restaurants.AddRangeAsync(restaurants);
+        await dbContext.SaveChangesAsync();
+    }
+
+    private static List<Restaurant> GetRestaurants(string ownerId)
+    {
+        return
         [
-            new() {
+            new()
+            {
                 Name = "Pasta Palace",
                 Description = "Handmade pasta and sauces inspired by traditional Italian recipes.",
                 Category = "Italian",
                 HasDelivery = true,
                 ContactEmail = "contact@pastapalace.example",
                 ContactNumber = "+1-555-0101",
+                OwnerId = ownerId,
                 Address = new()
                 {
                     City = "Springfield",
                     Street = "12 Olive Way",
                     PostalCode = "12345"
-                },
-                Dishes =
-                [
-                    new()
-                    {
-                        Name = "Tagliatelle Bolognese",
-                        Description = "Slow-cooked beef ragù with fresh tagliatelle.",
-                        Price = 14.50m
-                    },
-                    new()
-                    {
-                        Name = "Cacio e Pepe",
-                        Description = "Pecorino, black pepper and perfectly al dente spaghetti.",
-                        Price = 12.00m
-                    },
-                    new()
-                    {
-                        Name = "Tiramisu",
-                        Description = "Classic espresso-soaked ladyfingers with mascarpone.",
-                        Price = 7.00m
-                    }
-                ]
+                }
             },
 
-            new() {
+            new()
+            {
                 Name = "Sushi Central",
-                Description = "Modern sushi bar using sustainably sourced fish and seasonal produce.",
+                Description = "Modern sushi bar using sustainably sourced fish.",
                 Category = "Japanese",
                 HasDelivery = false,
                 ContactEmail = "hello@sushicentral.example",
                 ContactNumber = "+1-555-0202",
+                OwnerId = ownerId,
                 Address = new()
                 {
                     City = "Riverton",
                     Street = "88 Harbor Road",
                     PostalCode = "67890"
-                },
-                Dishes =
-                [
-                    new()
-                    {
-                        Name = "Salmon Nigiri (2 pcs)",
-                        Description = "Fresh Atlantic salmon over vinegared rice.",
-                        Price = 6.50m
-                    },
-                    new()
-                    {
-                        Name = "Spicy Tuna Roll",
-                        Description = "Tuna with house spicy mayo and cucumber.",
-                        Price = 9.00m
-                    },
-                    new()
-                    {
-                        Name = "Miso Soup",
-                        Description = "Traditional miso with wakame and tofu.",
-                        Price = 3.50m
-                    }
-                ]
-            },
-
-            new() {
-                Name = "Burger Barn",
-                Description = "Classic and gourmet burgers, hand-cut fries and craft sodas.",
-                Category = "American",
-                HasDelivery = true,
-                ContactEmail = "order@burgerbarn.example",
-                ContactNumber = "+1-555-0303",
-                Address = new()
-                {
-                    City = "Lakeside",
-                    Street = "450 Main Street",
-                    PostalCode = "24680"
-                },
-                Dishes =
-                [
-                    new()
-                    {
-                        Name = "Classic Cheeseburger",
-                        Description = "Grilled patty, cheddar, lettuce, tomato, pickles.",
-                        Price = 10.00m
-                    },
-                    new()
-
-                    {
-                        Name = "BBQ Bacon Burger",
-                        Description = "Smoky BBQ sauce, bacon, crispy onions.",
-                        Price = 12.50m
-                    },
-                    new()
-                    {
-                        Name = "Sweet Potato Fries",
-                        Description = "Crispy sweet potato fries with herb salt.",
-                        Price = 4.50m
-                    }
-                ]
-            },
-
-            new() {
-                Name = "Green Garden",
-                Description = "Plant-forward dishes focusing on local and seasonal produce.",
-                Category = "Vegetarian",
-                HasDelivery = false,
-                ContactEmail = "info@greengarden.example",
-                ContactNumber = "+1-555-0404",
-                Address = new()
-                {
-                    City = "Meadowbrook",
-                    Street = "221 Garden Lane",
-                    PostalCode = "11223"
-                },
-                Dishes =
-                [
-                    new()
-                    {
-                        Name = "Roasted Beet Salad",
-                        Description = "Mixed greens, roasted beets, citrus vinaigrette.",
-                        Price = 11.00m
-                    },
-                    new()
-                    {
-                        Name = "Mushroom Risotto",
-                        Description = "Creamy arborio with wild mushrooms and herbs.",
-                        Price = 13.75m
-                    },
-                    new()
-                    {
-                        Name = "Lemon Tahini Tart",
-                        Description = "Zesty citrus tart with tahini crust.",
-                        Price = 6.50m
-                    }
-                ]
+                }
             }
         ];
-
-        return restaurants;
     }
 }

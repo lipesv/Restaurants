@@ -35,6 +35,7 @@ try
        .WithTags("Identity")
        .MapIdentityApi<User>();
 
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();
@@ -50,6 +51,7 @@ try
 catch (Exception e)
 {
     Log.Fatal(e, "Application startup failed");
+    throw;
 }
 finally
 {

@@ -1,3 +1,6 @@
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
@@ -5,8 +8,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Restaurants.API.Tests.Handlers;
 using Restaurants.Application.Dtos.Restaurants;
 using Restaurants.Domain.Repositories;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
+using Restaurants.Infrastructure.Seeders.Interfaces;
 
 namespace Restaurants.API.Tests.Controllers;
 
@@ -15,21 +17,26 @@ public class RestaurantsControllerTests : IClassFixture<WebApplicationFactory<Pr
     private readonly WebApplicationFactory<Program> _factory;
     private readonly Mock<IRestaurantsRepository> _restaurantRepositoryMock = new();
 
-
     public RestaurantsControllerTests(WebApplicationFactory<Program> factory)
     {
         _factory = factory.WithWebHostBuilder(builder =>
+        {
+            builder.UseEnvironment("Testing");
             builder.ConfigureTestServices(services =>
             {
-                // services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
-
-                services.AddAuthentication("Test")
-                        .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = "Test";
+                    options.DefaultChallengeScheme = "Test";
+                }).AddScheme<AuthenticationSchemeOptions, TestAuthHandler>("Test", _ => { });
 
                 services.AddAuthorization();
-
-                services.Replace(ServiceDescriptor.Scoped(typeof(IRestaurantsRepository), _ => _restaurantRepositoryMock.Object));
-            }));
+                services.RemoveAll<IDatabaseSeeder>();
+                services.AddScoped<IDatabaseSeeder, NoOpDatabaseSeeder>();
+                services.RemoveAll<IRestaurantsRepository>();
+                services.AddScoped(_ => _restaurantRepositoryMock.Object);
+            });
+        });
     }
 
     [Fact]
